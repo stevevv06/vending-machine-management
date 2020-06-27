@@ -1,20 +1,27 @@
-package com.avasquez.service.dto;
+package com.avasquez.vendingadmin.service.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * A DTO for the {@link com.avasquez.domain.VendingMachineModel} entity.
+ * A DTO for the {@link com.avasquez.vendingadmin.domain.VendingMachineModel} entity.
  */
 public class VendingMachineModelDTO extends AbstractAuditingDTO implements Serializable {
-    
+
     private Long id;
 
+    @NotNull
+    @Size(max = 150)
     private String name;
 
+    @NotNull
     private Boolean acceptsCoins;
 
+    @NotNull
     private Boolean acceptsBills;
 
+    @NotNull
     private Boolean acceptsCreditCard;
 
     

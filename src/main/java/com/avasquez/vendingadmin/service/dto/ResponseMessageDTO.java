@@ -1,4 +1,4 @@
-package com.avasquez.movierental.service.dto;
+package com.avasquez.vendingadmin.service.dto;
 
 public class ResponseMessageDTO {
 	private String message;

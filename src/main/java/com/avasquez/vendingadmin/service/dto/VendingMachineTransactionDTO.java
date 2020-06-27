@@ -1,32 +1,45 @@
-package com.avasquez.service.dto;
+package com.avasquez.vendingadmin.service.dto;
 
-import java.time.LocalDate;
+import com.avasquez.vendingadmin.domain.enumeration.PaymentType;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import com.avasquez.domain.enumeration.PaymentType;
+import java.time.LocalDate;
 
 /**
- * A DTO for the {@link com.avasquez.domain.VendingMachineTransaction} entity.
+ * A DTO for the {@link com.avasquez.vendingadmin.domain.VendingMachineTransaction} entity.
  */
 public class VendingMachineTransactionDTO extends AbstractAuditingDTO implements Serializable {
-    
+
     private Long id;
 
+    @NotNull
+    @Min(value = 0)
     private Integer itemQuantity;
 
+    @NotNull
+    @DecimalMin(value = "0")
     private BigDecimal paymentAmount;
 
+    @DecimalMin(value = "0")
     private BigDecimal cashInAmount;
 
+    @DecimalMin(value = "0")
     private BigDecimal cashChange;
 
+    @NotNull
     private LocalDate transactionDate;
 
+    @NotNull
     private PaymentType paymentType;
 
-
+    @NotNull
     private Long vendingMachineId;
 
+    @NotNull
     private Long itemId;
     
     public Long getId() {

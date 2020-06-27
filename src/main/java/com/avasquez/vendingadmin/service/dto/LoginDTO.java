@@ -1,4 +1,4 @@
-package com.avasquez.movierental.service.dto;
+package com.avasquez.vendingadmin.service.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

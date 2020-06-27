@@ -1,4 +1,4 @@
 /**
  * Data Transfer Objects.
  */
-package com.avasquez.service.dto;
+package com.avasquez.vendingadmin.service.dto;

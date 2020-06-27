@@ -1,17 +1,24 @@
-package com.avasquez.service.dto;
+package com.avasquez.vendingadmin.service.dto;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * A DTO for the {@link com.avasquez.domain.BillType} entity.
+ * A DTO for the {@link com.avasquez.vendingadmin.domain.BillType} entity.
  */
 public class BillTypeDTO extends AbstractAuditingDTO implements Serializable {
-    
+
     private Long id;
 
+    @NotNull
+    @Size(max = 150)
     private String name;
 
+    @NotNull
+    @DecimalMin(value = "0")
     private BigDecimal value;
 
     

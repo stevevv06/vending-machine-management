@@ -1,18 +1,20 @@
-package com.avasquez.service.dto;
+package com.avasquez.vendingadmin.service.dto;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
- * A DTO for the {@link com.avasquez.domain.UnlockAttemp} entity.
+ * A DTO for the {@link com.avasquez.vendingadmin.domain.UnlockAttemp} entity.
  */
 public class UnlockAttempDTO extends AbstractAuditingDTO implements Serializable {
-    
+
     private Long id;
 
+    @NotNull
     private LocalDate unlockDate;
 
-
+    @NotNull
     private Long vendingMachineId;
     
     public Long getId() {
