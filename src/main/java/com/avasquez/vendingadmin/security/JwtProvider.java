@@ -1,4 +1,4 @@
-package com.avasquez.movierental.security;
+package com.avasquez.vendingadmin.security;
 
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;

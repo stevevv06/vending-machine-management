@@ -1,4 +1,4 @@
-package com.avasquez.movierental.security;
+package com.avasquez.vendingadmin.security;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;

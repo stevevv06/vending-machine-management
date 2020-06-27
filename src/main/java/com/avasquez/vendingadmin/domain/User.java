@@ -45,22 +45,6 @@ public class User{
      inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MovieLike> movieLikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MoviePurchase> moviePurchases = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MovieRental> movieRentals = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MovieJournal> movieJournal = new ArrayList<>();
- 
     public User() {}
  
     public User(String username, String email, String password) {
@@ -109,27 +93,4 @@ public class User{
         this.roles = roles;
     }
 
-    public List<MovieLike> getMovieLikes() {
-        return movieLikes;
-    }
-
-    public void setMovieLikes(List<MovieLike> movieLikes) {
-        this.movieLikes = movieLikes;
-    }
-
-    public List<MoviePurchase> getMoviePurchases() {
-        return moviePurchases;
-    }
-
-    public void setMoviePurchases(List<MoviePurchase> moviePurchases) {
-        this.moviePurchases = moviePurchases;
-    }
-
-    public List<MovieRental> getMovieRentals() {
-        return movieRentals;
-    }
-
-    public void setMovieRentals(List<MovieRental> movieRentals) {
-        this.movieRentals = movieRentals;
-    }
 }

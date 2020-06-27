@@ -1,4 +1,4 @@
 /**
  * Spring MVC REST controllers.
  */
-package com.avasquez.web.rest;
+package com.avasquez.vendingadmin.rest;

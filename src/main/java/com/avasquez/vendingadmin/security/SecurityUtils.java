@@ -1,6 +1,6 @@
-package com.avasquez.movierental.security;
+package com.avasquez.vendingadmin.security;
 
-import com.avasquez.movierental.domain.RoleName;
+import com.avasquez.vendingadmin.domain.RoleName;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

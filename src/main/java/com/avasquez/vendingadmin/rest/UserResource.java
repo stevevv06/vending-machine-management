@@ -1,14 +1,12 @@
-package com.avasquez.movierental.web;
+package com.avasquez.vendingadmin.rest;
 
-import com.avasquez.movierental.service.api.UserService;
-import com.avasquez.movierental.service.dto.MoviePurchaseDTO;
-import com.avasquez.movierental.service.dto.UserDTO;
+import com.avasquez.vendingadmin.service.api.UserService;
+import com.avasquez.vendingadmin.service.dto.UserDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController

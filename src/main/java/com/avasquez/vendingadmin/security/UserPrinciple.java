@@ -1,6 +1,6 @@
-package com.avasquez.movierental.security;
+package com.avasquez.vendingadmin.security;
 
-import com.avasquez.movierental.domain.User;
+import com.avasquez.vendingadmin.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

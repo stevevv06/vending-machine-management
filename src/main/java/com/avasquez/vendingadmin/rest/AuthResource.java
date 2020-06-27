@@ -1,15 +1,15 @@
-package com.avasquez.movierental.web;
+package com.avasquez.vendingadmin.rest;
 
-import com.avasquez.movierental.domain.Role;
-import com.avasquez.movierental.domain.RoleName;
-import com.avasquez.movierental.domain.User;
-import com.avasquez.movierental.repository.RoleRepository;
-import com.avasquez.movierental.repository.UserRepository;
-import com.avasquez.movierental.security.JwtProvider;
-import com.avasquez.movierental.service.dto.JwtResponseDTO;
-import com.avasquez.movierental.service.dto.LoginDTO;
-import com.avasquez.movierental.service.dto.ResponseMessageDTO;
-import com.avasquez.movierental.service.dto.SignUpDTO;
+import com.avasquez.vendingadmin.domain.Role;
+import com.avasquez.vendingadmin.domain.RoleName;
+import com.avasquez.vendingadmin.domain.User;
+import com.avasquez.vendingadmin.repository.RoleRepository;
+import com.avasquez.vendingadmin.repository.UserRepository;
+import com.avasquez.vendingadmin.security.JwtProvider;
+import com.avasquez.vendingadmin.service.dto.JwtResponseDTO;
+import com.avasquez.vendingadmin.service.dto.LoginDTO;
+import com.avasquez.vendingadmin.service.dto.ResponseMessageDTO;
+import com.avasquez.vendingadmin.service.dto.SignUpDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ import java.util.Set;
 public class AuthResource {
 
 	@Autowired
-	AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
 
 	@Autowired
 	UserRepository userRepository;
@@ -40,7 +40,7 @@ public class AuthResource {
 	RoleRepository roleRepository;
 
 	@Autowired
-	PasswordEncoder encoder;
+    PasswordEncoder encoder;
 
 	@Autowired
 	JwtProvider jwtProvider;

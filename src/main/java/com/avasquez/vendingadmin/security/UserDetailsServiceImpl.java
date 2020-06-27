@@ -1,7 +1,7 @@
-package com.avasquez.movierental.security;
+package com.avasquez.vendingadmin.security;
 
-import com.avasquez.movierental.domain.User;
-import com.avasquez.movierental.repository.UserRepository;
+import com.avasquez.vendingadmin.domain.User;
+import com.avasquez.vendingadmin.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

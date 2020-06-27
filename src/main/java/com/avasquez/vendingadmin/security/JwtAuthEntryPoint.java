@@ -1,4 +1,4 @@
-package com.avasquez.movierental.security;
+package com.avasquez.vendingadmin.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
-                         AuthenticationException e) 
+                         AuthenticationException e)
                         		 throws IOException, ServletException {
     	
         logger.error("Unauthorized error. Message - {}", e.getMessage());

@@ -1,4 +1,4 @@
-package com.avasquez.movierental.security;
+package com.avasquez.vendingadmin.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
