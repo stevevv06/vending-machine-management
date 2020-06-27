@@ -1,4 +1,4 @@
-package com.avasquez.movierental.service.api;
+package com.avasquez.vendingadmin.service.api;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

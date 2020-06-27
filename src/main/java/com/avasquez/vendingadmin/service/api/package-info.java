@@ -1,4 +1,4 @@
 /**
  * Service layer beans.
  */
-package com.avasquez.vendingadmin.service;
+package com.avasquez.vendingadmin.service.api;

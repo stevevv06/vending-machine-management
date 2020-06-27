@@ -1,6 +1,6 @@
-package com.avasquez.movierental.service.api;
+package com.avasquez.vendingadmin.service.api;
 
-import com.avasquez.movierental.service.dto.UserDTO;
+import com.avasquez.vendingadmin.service.dto.UserDTO;
 
 import java.util.Optional;
 
