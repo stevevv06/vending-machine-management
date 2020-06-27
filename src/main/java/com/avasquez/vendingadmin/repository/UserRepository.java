@@ -1,6 +1,6 @@
-package com.avasquez.movierental.repository;
+package com.avasquez.vendingadmin.repository;
 
-import com.avasquez.movierental.domain.User;
+import com.avasquez.vendingadmin.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,7 @@
-package com.avasquez.repository;
+package com.avasquez.vendingadmin.repository;
 
-import com.avasquez.domain.VendingMachineModel;
-
-import org.springframework.data.jpa.repository.*;
+import com.avasquez.vendingadmin.domain.VendingMachineModel;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -1,4 +1,4 @@
 /**
  * Spring Data JPA repositories.
  */
-package com.avasquez.repository;
+package com.avasquez.vendingadmin.repository;
