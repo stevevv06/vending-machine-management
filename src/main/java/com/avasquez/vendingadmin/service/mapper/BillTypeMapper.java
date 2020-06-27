@@ -1,9 +1,8 @@
-package com.avasquez.service.mapper;
+package com.avasquez.vendingadmin.service.mapper;
 
 
-import com.avasquez.domain.*;
-import com.avasquez.service.dto.BillTypeDTO;
-
+import com.avasquez.vendingadmin.domain.*;
+import com.avasquez.vendingadmin.service.dto.BillTypeDTO;
 import org.mapstruct.*;
 
 /**

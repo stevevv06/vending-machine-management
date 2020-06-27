@@ -1,4 +1,4 @@
-package com.avasquez.service.mapper;
+package com.avasquez.vendingadmin.service.mapper;
 
 import java.util.List;
 

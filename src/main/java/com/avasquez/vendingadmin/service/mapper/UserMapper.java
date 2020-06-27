@@ -1,7 +1,7 @@
-package com.avasquez.movierental.service.mapper;
+package com.avasquez.vendingadmin.service.mapper;
 
-import com.avasquez.movierental.domain.User;
-import com.avasquez.movierental.service.dto.UserDTO;
+import com.avasquez.vendingadmin.domain.User;
+import com.avasquez.vendingadmin.service.dto.UserDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
