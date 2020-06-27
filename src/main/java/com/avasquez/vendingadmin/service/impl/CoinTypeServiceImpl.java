@@ -1,13 +1,12 @@
-package com.avasquez.service.impl;
+package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.service.CoinTypeService;
-import com.avasquez.domain.CoinType;
-import com.avasquez.repository.CoinTypeRepository;
-import com.avasquez.service.dto.CoinTypeDTO;
-import com.avasquez.service.mapper.CoinTypeMapper;
+import com.avasquez.vendingadmin.domain.CoinType;
+import com.avasquez.vendingadmin.repository.CoinTypeRepository;
+import com.avasquez.vendingadmin.service.api.CoinTypeService;
+import com.avasquez.vendingadmin.service.dto.CoinTypeDTO;
+import com.avasquez.vendingadmin.service.mapper.CoinTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,7 +69,7 @@ public class CoinTypeServiceImpl implements CoinTypeService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<CoinTypeDTO> findOne(Long id) {
+    public Optional<CoinTypeDTO> find(Long id) {
         log.debug("Request to get CoinType : {}", id);
         return coinTypeRepository.findById(id)
             .map(coinTypeMapper::toDto);

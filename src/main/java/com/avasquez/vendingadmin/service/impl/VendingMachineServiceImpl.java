@@ -1,13 +1,12 @@
-package com.avasquez.service.impl;
+package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.service.VendingMachineService;
-import com.avasquez.domain.VendingMachine;
-import com.avasquez.repository.VendingMachineRepository;
-import com.avasquez.service.dto.VendingMachineDTO;
-import com.avasquez.service.mapper.VendingMachineMapper;
+import com.avasquez.vendingadmin.domain.VendingMachine;
+import com.avasquez.vendingadmin.repository.VendingMachineRepository;
+import com.avasquez.vendingadmin.service.api.VendingMachineService;
+import com.avasquez.vendingadmin.service.dto.VendingMachineDTO;
+import com.avasquez.vendingadmin.service.mapper.VendingMachineMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,7 +69,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<VendingMachineDTO> findOne(Long id) {
+    public Optional<VendingMachineDTO> find(Long id) {
         log.debug("Request to get VendingMachine : {}", id);
         return vendingMachineRepository.findById(id)
             .map(vendingMachineMapper::toDto);

@@ -1,13 +1,12 @@
-package com.avasquez.service.impl;
+package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.service.UnlockAttempService;
-import com.avasquez.domain.UnlockAttemp;
-import com.avasquez.repository.UnlockAttempRepository;
-import com.avasquez.service.dto.UnlockAttempDTO;
-import com.avasquez.service.mapper.UnlockAttempMapper;
+import com.avasquez.vendingadmin.domain.UnlockAttemp;
+import com.avasquez.vendingadmin.repository.UnlockAttempRepository;
+import com.avasquez.vendingadmin.service.api.UnlockAttempService;
+import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
+import com.avasquez.vendingadmin.service.mapper.UnlockAttempMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,7 +69,7 @@ public class UnlockAttempServiceImpl implements UnlockAttempService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<UnlockAttempDTO> findOne(Long id) {
+    public Optional<UnlockAttempDTO> find(Long id) {
         log.debug("Request to get UnlockAttemp : {}", id);
         return unlockAttempRepository.findById(id)
             .map(unlockAttempMapper::toDto);

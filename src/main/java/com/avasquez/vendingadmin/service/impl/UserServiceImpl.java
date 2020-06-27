@@ -1,14 +1,14 @@
-package com.avasquez.movierental.service.impl;
+package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.movierental.domain.Role;
-import com.avasquez.movierental.domain.RoleName;
-import com.avasquez.movierental.domain.User;
-import com.avasquez.movierental.repository.RoleRepository;
-import com.avasquez.movierental.repository.UserRepository;
-import com.avasquez.movierental.security.SecurityUtils;
-import com.avasquez.movierental.service.api.UserService;
-import com.avasquez.movierental.service.dto.UserDTO;
-import com.avasquez.movierental.service.mapper.UserMapper;
+import com.avasquez.vendingadmin.domain.Role;
+import com.avasquez.vendingadmin.domain.RoleName;
+import com.avasquez.vendingadmin.domain.User;
+import com.avasquez.vendingadmin.repository.RoleRepository;
+import com.avasquez.vendingadmin.repository.UserRepository;
+import com.avasquez.vendingadmin.security.SecurityUtils;
+import com.avasquez.vendingadmin.service.api.UserService;
+import com.avasquez.vendingadmin.service.dto.UserDTO;
+import com.avasquez.vendingadmin.service.mapper.UserMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

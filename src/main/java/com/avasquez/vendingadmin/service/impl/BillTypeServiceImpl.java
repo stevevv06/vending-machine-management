@@ -1,13 +1,12 @@
-package com.avasquez.service.impl;
+package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.service.BillTypeService;
-import com.avasquez.domain.BillType;
-import com.avasquez.repository.BillTypeRepository;
-import com.avasquez.service.dto.BillTypeDTO;
-import com.avasquez.service.mapper.BillTypeMapper;
+import com.avasquez.vendingadmin.domain.BillType;
+import com.avasquez.vendingadmin.repository.BillTypeRepository;
+import com.avasquez.vendingadmin.service.api.BillTypeService;
+import com.avasquez.vendingadmin.service.dto.BillTypeDTO;
+import com.avasquez.vendingadmin.service.mapper.BillTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,7 +69,7 @@ public class BillTypeServiceImpl implements BillTypeService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<BillTypeDTO> findOne(Long id) {
+    public Optional<BillTypeDTO> find(Long id) {
         log.debug("Request to get BillType : {}", id);
         return billTypeRepository.findById(id)
             .map(billTypeMapper::toDto);

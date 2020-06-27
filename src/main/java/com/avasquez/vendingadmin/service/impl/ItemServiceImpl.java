@@ -1,13 +1,12 @@
-package com.avasquez.service.impl;
+package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.service.ItemService;
-import com.avasquez.domain.Item;
-import com.avasquez.repository.ItemRepository;
-import com.avasquez.service.dto.ItemDTO;
-import com.avasquez.service.mapper.ItemMapper;
+import com.avasquez.vendingadmin.domain.Item;
+import com.avasquez.vendingadmin.repository.ItemRepository;
+import com.avasquez.vendingadmin.service.api.ItemService;
+import com.avasquez.vendingadmin.service.dto.ItemDTO;
+import com.avasquez.vendingadmin.service.mapper.ItemMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,7 +69,7 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Optional<ItemDTO> findOne(Long id) {
+    public Optional<ItemDTO> find(Long id) {
         log.debug("Request to get Item : {}", id);
         return itemRepository.findById(id)
             .map(itemMapper::toDto);
