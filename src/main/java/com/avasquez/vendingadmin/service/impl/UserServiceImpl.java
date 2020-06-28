@@ -2,11 +2,13 @@ package com.avasquez.vendingadmin.service.impl;
 
 import com.avasquez.vendingadmin.domain.Role;
 import com.avasquez.vendingadmin.domain.RoleName;
+import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.domain.User;
 import com.avasquez.vendingadmin.repository.RoleRepository;
 import com.avasquez.vendingadmin.repository.UserRepository;
 import com.avasquez.vendingadmin.security.SecurityUtils;
 import com.avasquez.vendingadmin.service.api.UserService;
+import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
 import com.avasquez.vendingadmin.service.dto.UserDTO;
 import com.avasquez.vendingadmin.service.mapper.UserMapper;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -68,6 +71,19 @@ public class UserServiceImpl implements UserService {
     public UserDTO save(UserDTO o) {
         User mr = userMapper.toEntity(o);
         return userMapper.toDto(userRepository.save(mr));
+    }
+
+    /**
+     * Save a collection of UnlockAttemp.
+     *
+     * @param dto the entity to save.
+     * @return the persisted entity.
+     */
+    @Override
+    public List<UserDTO> save(List<UserDTO> dto) {
+        List<User> ent = userMapper.toEntity(dto);
+        ent = userRepository.saveAll(ent);
+        return userMapper.toDto(ent);
     }
 
     public Optional<UserDTO> setUserRole(String username, String role) {

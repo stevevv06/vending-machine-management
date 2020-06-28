@@ -1,8 +1,10 @@
 package com.avasquez.vendingadmin.service.impl;
 
+import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.domain.VendingMachineCash;
 import com.avasquez.vendingadmin.repository.VendingMachineCashRepository;
 import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
+import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineCashDTO;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineCashMapper;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -44,6 +47,20 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
         VendingMachineCash vendingMachineCash = vendingMachineCashMapper.toEntity(vendingMachineCashDTO);
         vendingMachineCash = vendingMachineCashRepository.save(vendingMachineCash);
         return vendingMachineCashMapper.toDto(vendingMachineCash);
+    }
+
+    /**
+     * Save a collection of VendingMachineCash.
+     *
+     * @param dto the entity to save.
+     * @return the persisted entity.
+     */
+    @Override
+    public List<VendingMachineCashDTO> save(List<VendingMachineCashDTO> dto) {
+        log.debug("Request to save VendingMachineCashDTO : {}", dto);
+        List<VendingMachineCash> ent = vendingMachineCashMapper.toEntity(dto);
+        ent = vendingMachineCashRepository.saveAll(ent);
+        return vendingMachineCashMapper.toDto(ent);
     }
 
     /**

@@ -13,7 +13,7 @@ public interface BillTypeMapper extends EntityMapper<BillTypeDTO, BillType> {
 
 
     @Mapping(target = "vendingMachineCashes", ignore = true)
-    BillType toEntity(BillTypeDTO billTypeDTO);
+    BillType toEntity(BillTypeDTO dto);
 
     default BillType fromId(Long id) {
         if (id == null) {

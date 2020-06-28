@@ -3,6 +3,7 @@ package com.avasquez.vendingadmin.service.dto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * A DTO for the {@link com.avasquez.vendingadmin.domain.VendingMachineItem} entity.
@@ -15,11 +16,14 @@ public class VendingMachineItemDTO extends AbstractAuditingDTO implements Serial
     @Min(value = 0)
     private Integer quantity;
 
-    @NotNull
     private Long vendingMachineId;
 
     @NotNull
     private Long itemId;
+
+    private String itemName;
+
+    private BigDecimal itemPrice;
     
     public Long getId() {
         return id;
@@ -51,6 +55,22 @@ public class VendingMachineItemDTO extends AbstractAuditingDTO implements Serial
 
     public void setItemId(Long itemId) {
         this.itemId = itemId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public BigDecimal getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(BigDecimal itemPrice) {
+        this.itemPrice = itemPrice;
     }
 
     @Override

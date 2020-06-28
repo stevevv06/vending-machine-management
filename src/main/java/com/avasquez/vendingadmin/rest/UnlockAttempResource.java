@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -43,27 +44,30 @@ public class UnlockAttempResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/unlock-attemps")
-    public ResponseEntity<UnlockAttempDTO> create(@RequestBody UnlockAttempDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to save UnlockAttemp : {}", billTypeDTO);
-        if (billTypeDTO.getId() != null) {
+    public ResponseEntity<UnlockAttempDTO> create(@RequestBody UnlockAttempDTO dto) throws URISyntaxException {
+        log.debug("REST request to save UnlockAttemp : {}", dto);
+        if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
-        UnlockAttempDTO result = unlockAttempService.save(billTypeDTO);
+        UnlockAttempDTO result = unlockAttempService.save(dto);
         return ResponseEntity.created(new URI("/api/unlock-attemps" + result.getId()))
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/unlock-attemps")
-    public ResponseEntity<UnlockAttempDTO> update(@RequestBody UnlockAttempDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to update UnlockAttemp : {}", billTypeDTO);
-        if (billTypeDTO.getId() == null) {
+    public ResponseEntity<UnlockAttempDTO> update(@RequestBody UnlockAttempDTO dto) throws URISyntaxException {
+        log.debug("REST request to update UnlockAttemp : {}", dto);
+        if (dto.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        UnlockAttempDTO result = unlockAttempService.save(billTypeDTO);
+        UnlockAttempDTO result = unlockAttempService.save(dto);
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/unlock-attemps/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete UnlockAttemp : {}", id);

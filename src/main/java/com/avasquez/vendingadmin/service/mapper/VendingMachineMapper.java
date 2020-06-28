@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface VendingMachineMapper extends EntityMapper<VendingMachineDTO, VendingMachine> {
 
     @Mapping(source = "vendingMachineModel.id", target = "vendingMachineModelId")
+    @Mapping(source = "vendingMachineModel.name", target = "vendingMachineModelName")
     VendingMachineDTO toDto(VendingMachine vendingMachine);
 
     @Mapping(target = "vendingMachineItems", ignore = true)

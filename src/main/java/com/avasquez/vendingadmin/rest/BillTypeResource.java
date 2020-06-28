@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -43,27 +44,30 @@ public class BillTypeResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/bill-types")
-    public ResponseEntity<BillTypeDTO> create(@RequestBody BillTypeDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to save BillType : {}", billTypeDTO);
-        if (billTypeDTO.getId() != null) {
+    public ResponseEntity<BillTypeDTO> create(@RequestBody BillTypeDTO dto) throws URISyntaxException {
+        log.debug("REST request to save BillType : {}", dto);
+        if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
-        BillTypeDTO result = billTypeService.save(billTypeDTO);
+        BillTypeDTO result = billTypeService.save(dto);
         return ResponseEntity.created(new URI("/api/bill-types" + result.getId()))
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/bill-types")
-    public ResponseEntity<BillTypeDTO> update(@RequestBody BillTypeDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to update BillType : {}", billTypeDTO);
-        if (billTypeDTO.getId() == null) {
+    public ResponseEntity<BillTypeDTO> update(@RequestBody BillTypeDTO dto) throws URISyntaxException {
+        log.debug("REST request to update BillType : {}", dto);
+        if (dto.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        BillTypeDTO result = billTypeService.save(billTypeDTO);
+        BillTypeDTO result = billTypeService.save(dto);
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/bill-types/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete BillType : {}", id);

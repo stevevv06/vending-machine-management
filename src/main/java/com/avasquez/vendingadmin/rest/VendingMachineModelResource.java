@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -43,27 +44,30 @@ public class VendingMachineModelResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/vending-machine-models")
-    public ResponseEntity<VendingMachineModelDTO> create(@RequestBody VendingMachineModelDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to save VendingMachineModel : {}", billTypeDTO);
-        if (billTypeDTO.getId() != null) {
+    public ResponseEntity<VendingMachineModelDTO> create(@RequestBody VendingMachineModelDTO dto) throws URISyntaxException {
+        log.debug("REST request to save VendingMachineModel : {}", dto);
+        if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
-        VendingMachineModelDTO result = vendingMachineModelService.save(billTypeDTO);
+        VendingMachineModelDTO result = vendingMachineModelService.save(dto);
         return ResponseEntity.created(new URI("/api/vending-machine-models" + result.getId()))
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/vending-machine-models")
-    public ResponseEntity<VendingMachineModelDTO> update(@RequestBody VendingMachineModelDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to update VendingMachineModel : {}", billTypeDTO);
-        if (billTypeDTO.getId() == null) {
+    public ResponseEntity<VendingMachineModelDTO> update(@RequestBody VendingMachineModelDTO dto) throws URISyntaxException {
+        log.debug("REST request to update VendingMachineModel : {}", dto);
+        if (dto.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        VendingMachineModelDTO result = vendingMachineModelService.save(billTypeDTO);
+        VendingMachineModelDTO result = vendingMachineModelService.save(dto);
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/vending-machine-models/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete VendingMachineModel : {}", id);

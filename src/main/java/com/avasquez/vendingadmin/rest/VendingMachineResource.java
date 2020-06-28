@@ -2,16 +2,19 @@ package com.avasquez.vendingadmin.rest;
 
 import com.avasquez.vendingadmin.service.api.VendingMachineService;
 import com.avasquez.vendingadmin.service.dto.VendingMachineDTO;
+import com.avasquez.vendingadmin.service.dto.VendingMachineWithItemsDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,31 +46,70 @@ public class VendingMachineResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/vending-machines")
-    public ResponseEntity<VendingMachineDTO> create(@RequestBody VendingMachineDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to save VendingMachineDTO : {}", billTypeDTO);
-        if (billTypeDTO.getId() != null) {
+    public ResponseEntity<VendingMachineDTO> create(@RequestBody VendingMachineDTO dto) throws URISyntaxException {
+        log.debug("REST request to save VendingMachineDTO : {}", dto);
+        if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
-        VendingMachineDTO result = vendingMachineService.save(billTypeDTO);
+        VendingMachineDTO result = vendingMachineService.save(dto);
         return ResponseEntity.created(new URI("/api/vending-machines" + result.getId()))
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/vending-machines/batch")
+    public ResponseEntity<List<VendingMachineDTO>> create(@RequestBody List<VendingMachineDTO> dtos) throws URISyntaxException {
+        log.debug("REST request to save VendingMachineDTO batch");
+        for(VendingMachineDTO dto : dtos) {
+            if (dto.getId() != null) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        List<VendingMachineDTO> result = vendingMachineService.save(dtos);
+        return ResponseEntity.created(new URI("/api/vending-machines"))
+                .body(result);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/vending-machines")
-    public ResponseEntity<VendingMachineDTO> update(@RequestBody VendingMachineDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to update VendingMachineDTO : {}", billTypeDTO);
-        if (billTypeDTO.getId() == null) {
+    public ResponseEntity<VendingMachineDTO> update(@RequestBody VendingMachineDTO dto) throws URISyntaxException {
+        log.debug("REST request to update VendingMachineDTO : {}", dto);
+        if (dto.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        VendingMachineDTO result = vendingMachineService.save(billTypeDTO);
+        VendingMachineDTO result = vendingMachineService.save(dto);
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/vending-machines/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete VendingMachineDTO : {}", id);
         vendingMachineService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+
+    @GetMapping("/vending-machines/{id}/items")
+    public ResponseEntity<VendingMachineWithItemsDTO> getItems(@PathVariable Long id) {
+        log.debug("REST request to get VendingMachineDTO items: {}", id);
+        Optional<VendingMachineWithItemsDTO> result = vendingMachineService.findWithItems(id);
+        return result.map(response -> ResponseEntity.ok().body(response))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/vending-machines/{id}/items")
+    public ResponseEntity<VendingMachineWithItemsDTO> createItems(@PathVariable Long id, @RequestBody VendingMachineWithItemsDTO dto) throws URISyntaxException {
+        log.debug("REST request to get VendingMachineDTO items: {}", id);
+        dto.setId(id);
+        dto.getVendingMachineItems().forEach(
+                i -> i.setVendingMachineId(id)
+        );
+        VendingMachineWithItemsDTO result = vendingMachineService.save(dto);
+        return ResponseEntity.created(new URI("/api/vending-machines/"+"id"+"/items"))
+                .body(result);
+    }
+
 }

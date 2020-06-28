@@ -1,8 +1,10 @@
 package com.avasquez.vendingadmin.service.impl;
 
+import com.avasquez.vendingadmin.domain.BillType;
 import com.avasquez.vendingadmin.domain.CoinType;
 import com.avasquez.vendingadmin.repository.CoinTypeRepository;
 import com.avasquez.vendingadmin.service.api.CoinTypeService;
+import com.avasquez.vendingadmin.service.dto.BillTypeDTO;
 import com.avasquez.vendingadmin.service.dto.CoinTypeDTO;
 import com.avasquez.vendingadmin.service.mapper.CoinTypeMapper;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -44,6 +47,20 @@ public class CoinTypeServiceImpl implements CoinTypeService {
         CoinType coinType = coinTypeMapper.toEntity(coinTypeDTO);
         coinType = coinTypeRepository.save(coinType);
         return coinTypeMapper.toDto(coinType);
+    }
+
+    /**
+     * Save a collection of coinType.
+     *
+     * @param dto the entity to save.
+     * @return the persisted entity.
+     */
+    @Override
+    public List<CoinTypeDTO> save(List<CoinTypeDTO> dto) {
+        log.debug("Request to save CoinTypeDTO : {}", dto);
+        List<CoinType> ent = coinTypeMapper.toEntity(dto);
+        ent = coinTypeRepository.saveAll(ent);
+        return coinTypeMapper.toDto(ent);
     }
 
     /**

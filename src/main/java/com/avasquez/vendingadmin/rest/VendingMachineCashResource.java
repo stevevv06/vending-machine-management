@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -43,27 +44,30 @@ public class VendingMachineCashResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/vending-machine-cashs")
-    public ResponseEntity<VendingMachineCashDTO> create(@RequestBody VendingMachineCashDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to save VendingMachineCash : {}", billTypeDTO);
-        if (billTypeDTO.getId() != null) {
+    public ResponseEntity<VendingMachineCashDTO> create(@RequestBody VendingMachineCashDTO dto) throws URISyntaxException {
+        log.debug("REST request to save VendingMachineCash : {}", dto);
+        if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
-        VendingMachineCashDTO result = vendingMachineCashService.save(billTypeDTO);
+        VendingMachineCashDTO result = vendingMachineCashService.save(dto);
         return ResponseEntity.created(new URI("/api/vending-machine-cashs" + result.getId()))
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/vending-machine-cashs")
-    public ResponseEntity<VendingMachineCashDTO> update(@RequestBody VendingMachineCashDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to update VendingMachineCash : {}", billTypeDTO);
-        if (billTypeDTO.getId() == null) {
+    public ResponseEntity<VendingMachineCashDTO> update(@RequestBody VendingMachineCashDTO dto) throws URISyntaxException {
+        log.debug("REST request to update VendingMachineCash : {}", dto);
+        if (dto.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        VendingMachineCashDTO result = vendingMachineCashService.save(billTypeDTO);
+        VendingMachineCashDTO result = vendingMachineCashService.save(dto);
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/vending-machine-cashs/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete VendingMachineCash : {}", id);

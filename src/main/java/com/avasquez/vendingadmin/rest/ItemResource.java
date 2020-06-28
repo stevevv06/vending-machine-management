@@ -8,11 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing {@link com.avasquez.vendingadmin.domain.Item}.
@@ -43,27 +46,44 @@ public class ItemResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/items")
-    public ResponseEntity<ItemDTO> create(@RequestBody ItemDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to save Item : {}", billTypeDTO);
-        if (billTypeDTO.getId() != null) {
+    public ResponseEntity<ItemDTO> create(@RequestBody ItemDTO dto) throws URISyntaxException {
+        log.debug("REST request to save Item : {}", dto);
+        if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
-        ItemDTO result = itemService.save(billTypeDTO);
+        ItemDTO result = itemService.save(dto);
         return ResponseEntity.created(new URI("/api/items" + result.getId()))
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/items/batch")
+    public ResponseEntity<List<ItemDTO>> create(@RequestBody List<ItemDTO> dtos) throws URISyntaxException {
+        log.debug("REST request to save Item Import: {}");
+        for(ItemDTO dto: dtos) {
+            if (dto.getId() != null) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        List<ItemDTO> result = itemService.save(dtos);
+        return ResponseEntity.created(new URI("/api/items"))
+                .body(result);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/items")
-    public ResponseEntity<ItemDTO> update(@RequestBody ItemDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to update Item : {}", billTypeDTO);
-        if (billTypeDTO.getId() == null) {
+    public ResponseEntity<ItemDTO> update(@RequestBody ItemDTO dto) throws URISyntaxException {
+        log.debug("REST request to update Item : {}", dto);
+        if (dto.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        ItemDTO result = itemService.save(billTypeDTO);
+        ItemDTO result = itemService.save(dto);
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/items/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete Item : {}", id);

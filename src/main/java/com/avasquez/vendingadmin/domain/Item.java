@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Item.
@@ -40,13 +40,13 @@ public class Item extends AbstractAuditingEntity implements Serializable {
     @Column(name = "price", precision = 21, scale = 2, nullable = false)
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<VendingMachineItem> vendingMachineItems = new HashSet<>();
+    private List<VendingMachineItem> vendingMachineItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<VendingMachineTransaction> vendingMachineTransactions = new HashSet<>();
+    private List<VendingMachineTransaction> vendingMachineTransactions = new ArrayList<>();
 
 
     public Long getId() {
@@ -81,19 +81,19 @@ public class Item extends AbstractAuditingEntity implements Serializable {
         this.price = price;
     }
 
-    public Set<VendingMachineItem> getVendingMachineItems() {
+    public List<VendingMachineItem> getVendingMachineItems() {
         return vendingMachineItems;
     }
 
-    public void setVendingMachineItems(Set<VendingMachineItem> vendingMachineItems) {
+    public void setVendingMachineItems(List<VendingMachineItem> vendingMachineItems) {
         this.vendingMachineItems = vendingMachineItems;
     }
 
-    public Set<VendingMachineTransaction> getVendingMachineTransactions() {
+    public List<VendingMachineTransaction> getVendingMachineTransactions() {
         return vendingMachineTransactions;
     }
 
-    public void setVendingMachineTransactions(Set<VendingMachineTransaction> vendingMachineTransactions) {
+    public void setVendingMachineTransactions(List<VendingMachineTransaction> vendingMachineTransactions) {
         this.vendingMachineTransactions = vendingMachineTransactions;
     }
 

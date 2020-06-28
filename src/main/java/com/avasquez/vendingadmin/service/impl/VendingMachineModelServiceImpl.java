@@ -1,8 +1,10 @@
 package com.avasquez.vendingadmin.service.impl;
 
+import com.avasquez.vendingadmin.domain.VendingMachineItem;
 import com.avasquez.vendingadmin.domain.VendingMachineModel;
 import com.avasquez.vendingadmin.repository.VendingMachineModelRepository;
 import com.avasquez.vendingadmin.service.api.VendingMachineModelService;
+import com.avasquez.vendingadmin.service.dto.VendingMachineItemDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineModelDTO;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineModelMapper;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -44,6 +47,20 @@ public class VendingMachineModelServiceImpl implements VendingMachineModelServic
         VendingMachineModel vendingMachineModel = vendingMachineModelMapper.toEntity(vendingMachineModelDTO);
         vendingMachineModel = vendingMachineModelRepository.save(vendingMachineModel);
         return vendingMachineModelMapper.toDto(vendingMachineModel);
+    }
+
+    /**
+     * Save a collection of VendingMachineModel.
+     *
+     * @param dto the entity to save.
+     * @return the persisted entity.
+     */
+    @Override
+    public List<VendingMachineModelDTO> save(List<VendingMachineModelDTO> dto) {
+        log.debug("Request to save VendingMachineModelDTO : {}", dto);
+        List<VendingMachineModel> ent = vendingMachineModelMapper.toEntity(dto);
+        ent = vendingMachineModelRepository.saveAll(ent);
+        return vendingMachineModelMapper.toDto(ent);
     }
 
     /**

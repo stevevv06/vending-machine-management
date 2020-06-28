@@ -8,8 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A VendingMachine.
@@ -39,25 +39,25 @@ public class VendingMachine extends AbstractAuditingEntity implements Serializab
     @Column(name = "status_online", nullable = false)
     private Boolean statusOnline;
 
-    @OneToMany(mappedBy = "vendingMachine")
+    @OneToMany(mappedBy = "vendingMachine", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<VendingMachineItem> vendingMachineItems = new HashSet<>();
+    private List<VendingMachineItem> vendingMachineItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "vendingMachine")
+    @OneToMany(mappedBy = "vendingMachine", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<VendingMachineCash> vendingMachineCashes = new HashSet<>();
+    private List<VendingMachineCash> vendingMachineCashes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "vendingMachine")
+    @OneToMany(mappedBy = "vendingMachine", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<VendingMachineTransaction> vendingMachineTransactions = new HashSet<>();
+    private List<VendingMachineTransaction> vendingMachineTransactions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "vendingMachine")
+    @OneToMany(mappedBy = "vendingMachine", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<UnlockAttemp> unlockAttemps = new HashSet<>();
+    private List<UnlockAttemp> unlockAttemps = new ArrayList<>();
 
-    @OneToMany(mappedBy = "vendingMachine")
+    @OneToMany(mappedBy = "vendingMachine", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<CollectionAlert> collectionAlerts = new HashSet<>();
+    private List<CollectionAlert> collectionAlerts = new ArrayList<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "vendingMachines", allowSetters = true)
@@ -96,43 +96,43 @@ public class VendingMachine extends AbstractAuditingEntity implements Serializab
         this.statusOnline = statusOnline;
     }
 
-    public Set<VendingMachineItem> getVendingMachineItems() {
+    public List<VendingMachineItem> getVendingMachineItems() {
         return vendingMachineItems;
     }
 
-    public void setVendingMachineItems(Set<VendingMachineItem> vendingMachineItems) {
+    public void setVendingMachineItems(List<VendingMachineItem> vendingMachineItems) {
         this.vendingMachineItems = vendingMachineItems;
     }
 
-    public Set<VendingMachineCash> getVendingMachineCashes() {
+    public List<VendingMachineCash> getVendingMachineCashes() {
         return vendingMachineCashes;
     }
 
-    public void setVendingMachineCashes(Set<VendingMachineCash> vendingMachineCashes) {
+    public void setVendingMachineCashes(List<VendingMachineCash> vendingMachineCashes) {
         this.vendingMachineCashes = vendingMachineCashes;
     }
 
-    public Set<VendingMachineTransaction> getVendingMachineTransactions() {
+    public List<VendingMachineTransaction> getVendingMachineTransactions() {
         return vendingMachineTransactions;
     }
 
-    public void setVendingMachineTransactions(Set<VendingMachineTransaction> vendingMachineTransactions) {
+    public void setVendingMachineTransactions(List<VendingMachineTransaction> vendingMachineTransactions) {
         this.vendingMachineTransactions = vendingMachineTransactions;
     }
 
-    public Set<UnlockAttemp> getUnlockAttemps() {
+    public List<UnlockAttemp> getUnlockAttemps() {
         return unlockAttemps;
     }
 
-    public void setUnlockAttemps(Set<UnlockAttemp> unlockAttemps) {
+    public void setUnlockAttemps(List<UnlockAttemp> unlockAttemps) {
         this.unlockAttemps = unlockAttemps;
     }
 
-    public Set<CollectionAlert> getCollectionAlerts() {
+    public List<CollectionAlert> getCollectionAlerts() {
         return collectionAlerts;
     }
 
-    public void setCollectionAlerts(Set<CollectionAlert> collectionAlerts) {
+    public void setCollectionAlerts(List<CollectionAlert> collectionAlerts) {
         this.collectionAlerts = collectionAlerts;
     }
 

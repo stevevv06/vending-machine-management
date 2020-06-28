@@ -1,8 +1,10 @@
 package com.avasquez.vendingadmin.service.impl;
 
+import com.avasquez.vendingadmin.domain.CollectionAlert;
 import com.avasquez.vendingadmin.domain.Item;
 import com.avasquez.vendingadmin.repository.ItemRepository;
 import com.avasquez.vendingadmin.service.api.ItemService;
+import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
 import com.avasquez.vendingadmin.service.dto.ItemDTO;
 import com.avasquez.vendingadmin.service.mapper.ItemMapper;
 import org.slf4j.Logger;
@@ -12,7 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service Implementation for managing {@link Item}.
@@ -44,6 +48,19 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemMapper.toEntity(itemDTO);
         item = itemRepository.save(item);
         return itemMapper.toDto(item);
+    }
+
+    /**
+     * Save multiple items.
+     *
+     * @param itemDTOs the entity to save.
+     * @return the persisted entity.
+     */
+    public List<ItemDTO> save(List<ItemDTO> itemDTOs) {
+        log.debug("Request to save Items");
+        List<Item> items = itemMapper.toEntity(itemDTOs);
+        items = itemRepository.saveAll(items);
+        return itemMapper.toDto(items);
     }
 
     /**

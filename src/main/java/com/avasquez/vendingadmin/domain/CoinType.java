@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A CoinType.
@@ -36,9 +36,9 @@ public class CoinType extends AbstractAuditingEntity implements Serializable {
     @Column(name = "value", precision = 21, scale = 2, nullable = false)
     private BigDecimal value;
 
-    @OneToMany(mappedBy = "coinType")
+    @OneToMany(mappedBy = "coinType", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<VendingMachineCash> vendingMachineCashes = new HashSet<>();
+    private List<VendingMachineCash> vendingMachineCashes = new ArrayList<>();
 
 
     public Long getId() {
@@ -65,11 +65,11 @@ public class CoinType extends AbstractAuditingEntity implements Serializable {
         this.value = value;
     }
 
-    public Set<VendingMachineCash> getVendingMachineCashes() {
+    public List<VendingMachineCash> getVendingMachineCashes() {
         return vendingMachineCashes;
     }
 
-    public void setVendingMachineCashes(Set<VendingMachineCash> vendingMachineCashes) {
+    public void setVendingMachineCashes(List<VendingMachineCash> vendingMachineCashes) {
         this.vendingMachineCashes = vendingMachineCashes;
     }
 

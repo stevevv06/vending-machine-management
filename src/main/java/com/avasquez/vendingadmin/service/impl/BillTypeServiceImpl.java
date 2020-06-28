@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -35,14 +36,28 @@ public class BillTypeServiceImpl implements BillTypeService {
     /**
      * Save a billType.
      *
-     * @param billTypeDTO the entity to save.
+     * @param dto the entity to save.
      * @return the persisted entity.
      */
     @Override
-    public BillTypeDTO save(BillTypeDTO billTypeDTO) {
-        log.debug("Request to save BillType : {}", billTypeDTO);
-        BillType billType = billTypeMapper.toEntity(billTypeDTO);
+    public BillTypeDTO save(BillTypeDTO dto) {
+        log.debug("Request to save BillType : {}", dto);
+        BillType billType = billTypeMapper.toEntity(dto);
         billType = billTypeRepository.save(billType);
+        return billTypeMapper.toDto(billType);
+    }
+
+    /**
+     * Save a collection of billType.
+     *
+     * @param dto the entity to save.
+     * @return the persisted entity.
+     */
+    @Override
+    public List<BillTypeDTO> save(List<BillTypeDTO> dto) {
+        log.debug("Request to save BillType : {}", dto);
+        List<BillType> billType = billTypeMapper.toEntity(dto);
+        billType = billTypeRepository.saveAll(billType);
         return billTypeMapper.toDto(billType);
     }
 

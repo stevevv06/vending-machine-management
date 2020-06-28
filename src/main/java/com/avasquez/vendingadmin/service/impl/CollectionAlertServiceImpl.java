@@ -1,8 +1,10 @@
 package com.avasquez.vendingadmin.service.impl;
 
+import com.avasquez.vendingadmin.domain.CoinType;
 import com.avasquez.vendingadmin.domain.CollectionAlert;
 import com.avasquez.vendingadmin.repository.CollectionAlertRepository;
 import com.avasquez.vendingadmin.service.api.CollectionAlertService;
+import com.avasquez.vendingadmin.service.dto.CoinTypeDTO;
 import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
 import com.avasquez.vendingadmin.service.mapper.CollectionAlertMapper;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -44,6 +47,20 @@ public class CollectionAlertServiceImpl implements CollectionAlertService {
         CollectionAlert collectionAlert = collectionAlertMapper.toEntity(collectionAlertDTO);
         collectionAlert = collectionAlertRepository.save(collectionAlert);
         return collectionAlertMapper.toDto(collectionAlert);
+    }
+
+    /**
+     * Save a collection of coinType.
+     *
+     * @param dto the entity to save.
+     * @return the persisted entity.
+     */
+    @Override
+    public List<CollectionAlertDTO> save(List<CollectionAlertDTO> dto) {
+        log.debug("Request to save CollectionAlertDTO : {}", dto);
+        List<CollectionAlert> ent = collectionAlertMapper.toEntity(dto);
+        ent = collectionAlertRepository.saveAll(ent);
+        return collectionAlertMapper.toDto(ent);
     }
 
     /**

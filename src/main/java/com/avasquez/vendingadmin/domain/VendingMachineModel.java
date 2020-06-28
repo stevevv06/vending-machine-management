@@ -7,8 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A VendingMachineModel.
@@ -41,9 +41,9 @@ public class VendingMachineModel extends AbstractAuditingEntity implements Seria
     @Column(name = "accepts_credit_card", nullable = false)
     private Boolean acceptsCreditCard;
 
-    @OneToMany(mappedBy = "vendingMachineModel")
+    @OneToMany(mappedBy = "vendingMachineModel", fetch = FetchType.LAZY)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<VendingMachine> vendingMachines = new HashSet<>();
+    private List<VendingMachine> vendingMachines = new ArrayList<>();
 
 
     public Long getId() {
@@ -86,11 +86,11 @@ public class VendingMachineModel extends AbstractAuditingEntity implements Seria
         this.acceptsCreditCard = acceptsCreditCard;
     }
 
-    public Set<VendingMachine> getVendingMachines() {
+    public List<VendingMachine> getVendingMachines() {
         return vendingMachines;
     }
 
-    public void setVendingMachines(Set<VendingMachine> vendingMachines) {
+    public void setVendingMachines(List<VendingMachine> vendingMachines) {
         this.vendingMachines = vendingMachines;
     }
 

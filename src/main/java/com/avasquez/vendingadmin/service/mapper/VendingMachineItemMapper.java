@@ -13,6 +13,8 @@ public interface VendingMachineItemMapper extends EntityMapper<VendingMachineIte
 
     @Mapping(source = "vendingMachine.id", target = "vendingMachineId")
     @Mapping(source = "item.id", target = "itemId")
+    @Mapping(source = "item.name", target = "itemName")
+    @Mapping(source = "item.price", target = "itemPrice")
     VendingMachineItemDTO toDto(VendingMachineItem vendingMachineItem);
 
     @Mapping(source = "vendingMachineId", target = "vendingMachine")

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -43,27 +44,30 @@ public class CoinTypeResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/coin-types")
-    public ResponseEntity<CoinTypeDTO> create(@RequestBody CoinTypeDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to save CoinType : {}", billTypeDTO);
-        if (billTypeDTO.getId() != null) {
+    public ResponseEntity<CoinTypeDTO> create(@RequestBody CoinTypeDTO dto) throws URISyntaxException {
+        log.debug("REST request to save CoinType : {}", dto);
+        if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
-        CoinTypeDTO result = coinTypeService.save(billTypeDTO);
+        CoinTypeDTO result = coinTypeService.save(dto);
         return ResponseEntity.created(new URI("/api/coin-types" + result.getId()))
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/coin-types")
-    public ResponseEntity<CoinTypeDTO> update(@RequestBody CoinTypeDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to update CoinType : {}", billTypeDTO);
-        if (billTypeDTO.getId() == null) {
+    public ResponseEntity<CoinTypeDTO> update(@RequestBody CoinTypeDTO dto) throws URISyntaxException {
+        log.debug("REST request to update CoinType : {}", dto);
+        if (dto.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        CoinTypeDTO result = coinTypeService.save(billTypeDTO);
+        CoinTypeDTO result = coinTypeService.save(dto);
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/coin-types/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete CoinType : {}", id);

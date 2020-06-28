@@ -24,6 +24,8 @@ public class VendingMachineDTO extends AbstractAuditingDTO implements Serializab
 
     @NotNull
     private Long vendingMachineModelId;
+
+    private String vendingMachineModelName;
     
     public Long getId() {
         return id;
@@ -65,6 +67,14 @@ public class VendingMachineDTO extends AbstractAuditingDTO implements Serializab
         this.vendingMachineModelId = vendingMachineModelId;
     }
 
+    public String getVendingMachineModelName() {
+        return vendingMachineModelName;
+    }
+
+    public void setVendingMachineModelName(String vendingMachineModelName) {
+        this.vendingMachineModelName = vendingMachineModelName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -88,7 +98,6 @@ public class VendingMachineDTO extends AbstractAuditingDTO implements Serializab
         return "VendingMachineDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", unlockCode='" + getUnlockCode() + "'" +
             ", statusOnline='" + isStatusOnline() + "'" +
             ", vendingMachineModelId=" + getVendingMachineModelId() +
             "}";

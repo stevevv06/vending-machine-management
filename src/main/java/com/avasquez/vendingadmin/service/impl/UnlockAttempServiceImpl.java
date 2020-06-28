@@ -1,8 +1,10 @@
 package com.avasquez.vendingadmin.service.impl;
 
+import com.avasquez.vendingadmin.domain.CollectionAlert;
 import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.repository.UnlockAttempRepository;
 import com.avasquez.vendingadmin.service.api.UnlockAttempService;
+import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
 import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
 import com.avasquez.vendingadmin.service.mapper.UnlockAttempMapper;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -44,6 +47,20 @@ public class UnlockAttempServiceImpl implements UnlockAttempService {
         UnlockAttemp unlockAttemp = unlockAttempMapper.toEntity(unlockAttempDTO);
         unlockAttemp = unlockAttempRepository.save(unlockAttemp);
         return unlockAttempMapper.toDto(unlockAttemp);
+    }
+
+    /**
+     * Save a collection of UnlockAttemp.
+     *
+     * @param dto the entity to save.
+     * @return the persisted entity.
+     */
+    @Override
+    public List<UnlockAttempDTO> save(List<UnlockAttempDTO> dto) {
+        log.debug("Request to save UnlockAttempDTO : {}", dto);
+        List<UnlockAttemp> ent = unlockAttempMapper.toEntity(dto);
+        ent = unlockAttempRepository.saveAll(ent);
+        return unlockAttempMapper.toDto(ent);
     }
 
     /**

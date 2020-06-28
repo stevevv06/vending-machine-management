@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -43,27 +44,30 @@ public class CollectionAlertResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/collection-alerts")
-    public ResponseEntity<CollectionAlertDTO> create(@RequestBody CollectionAlertDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to save CollectionAlert : {}", billTypeDTO);
-        if (billTypeDTO.getId() != null) {
+    public ResponseEntity<CollectionAlertDTO> create(@RequestBody CollectionAlertDTO dto) throws URISyntaxException {
+        log.debug("REST request to save CollectionAlert : {}", dto);
+        if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
-        CollectionAlertDTO result = collectionAlertService.save(billTypeDTO);
+        CollectionAlertDTO result = collectionAlertService.save(dto);
         return ResponseEntity.created(new URI("/api/collection-alerts" + result.getId()))
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/collection-alerts")
-    public ResponseEntity<CollectionAlertDTO> update(@RequestBody CollectionAlertDTO billTypeDTO) throws URISyntaxException {
-        log.debug("REST request to update CollectionAlert : {}", billTypeDTO);
-        if (billTypeDTO.getId() == null) {
+    public ResponseEntity<CollectionAlertDTO> update(@RequestBody CollectionAlertDTO dto) throws URISyntaxException {
+        log.debug("REST request to update CollectionAlert : {}", dto);
+        if (dto.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        CollectionAlertDTO result = collectionAlertService.save(billTypeDTO);
+        CollectionAlertDTO result = collectionAlertService.save(dto);
         return ResponseEntity.ok().body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/collection-alerts/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete CollectionAlert : {}", id);
