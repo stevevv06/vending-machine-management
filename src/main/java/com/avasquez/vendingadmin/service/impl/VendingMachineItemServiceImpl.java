@@ -25,9 +25,7 @@ import java.util.Optional;
 public class VendingMachineItemServiceImpl implements VendingMachineItemService {
 
     private final Logger log = LoggerFactory.getLogger(VendingMachineItemServiceImpl.class);
-
     private final VendingMachineItemRepository vendingMachineItemRepository;
-
     private final VendingMachineItemMapper vendingMachineItemMapper;
 
     public VendingMachineItemServiceImpl(VendingMachineItemRepository vendingMachineItemRepository, VendingMachineItemMapper vendingMachineItemMapper) {
@@ -101,5 +99,11 @@ public class VendingMachineItemServiceImpl implements VendingMachineItemService 
     public void delete(Long id) {
         log.debug("Request to delete VendingMachineItem : {}", id);
         vendingMachineItemRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<VendingMachineItemDTO> findAllByVendingMachineId(Long id, Pageable pageable) {
+        return vendingMachineItemRepository.findAllByVendingMachineId(id, pageable)
+                .map(vendingMachineItemMapper::toDto);
     }
 }

@@ -23,14 +23,12 @@ public class VendingMachineCash extends AbstractAuditingEntity implements Serial
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @Min(value = 0)
-    @Column(name = "coin_quantity", nullable = false)
+    @Column(name = "coin_quantity")
     private Integer coinQuantity;
 
-    @NotNull
     @Min(value = 0)
-    @Column(name = "bill_quantity", nullable = false)
+    @Column(name = "bill_quantity")
     private Integer billQuantity;
 
     @ManyToOne

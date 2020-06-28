@@ -1,16 +1,13 @@
 package com.avasquez.vendingadmin.service.dto;
 
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
-public class VendingMachineWithItemsDTO {
+public class VendingMachineTotalDTO {
     private Long id;
 
     private String name;
 
-    @NotNull
-    private List<VendingMachineItemDTO> vendingMachineItems = new ArrayList<>();
+    private BigDecimal total;
 
     public Long getId() {
         return id;
@@ -28,12 +25,12 @@ public class VendingMachineWithItemsDTO {
         this.name = name;
     }
 
-    public List<VendingMachineItemDTO> getVendingMachineItems() {
-        return vendingMachineItems;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setVendingMachineItems(List<VendingMachineItemDTO> items) {
-        this.vendingMachineItems = items;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     @Override
@@ -41,11 +38,11 @@ public class VendingMachineWithItemsDTO {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof VendingMachineWithItemsDTO)) {
+        if (!(o instanceof VendingMachineTotalDTO)) {
             return false;
         }
 
-        return id != null && id.equals(((VendingMachineWithItemsDTO) o).id);
+        return id != null && id.equals(((VendingMachineTotalDTO) o).id);
     }
 
     @Override
@@ -56,9 +53,10 @@ public class VendingMachineWithItemsDTO {
     // prettier-ignore
     @Override
     public String toString() {
-        return "VendingMachineWithItemsDTO{" +
+        return "VendingMachineTotalDTO{" +
                 "id=" + getId() +
                 ", name='" + getName() + "'" +
+                ", total='" + getTotal() + "'" +
                 "}";
     }
 }

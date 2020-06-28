@@ -4,8 +4,8 @@ import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.domain.VendingMachineCash;
 import com.avasquez.vendingadmin.repository.VendingMachineCashRepository;
 import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
-import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
-import com.avasquez.vendingadmin.service.dto.VendingMachineCashDTO;
+import com.avasquez.vendingadmin.service.api.VendingMachineService;
+import com.avasquez.vendingadmin.service.dto.*;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineCashMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,14 +26,17 @@ import java.util.Optional;
 public class VendingMachineCashServiceImpl implements VendingMachineCashService {
 
     private final Logger log = LoggerFactory.getLogger(VendingMachineCashServiceImpl.class);
-
     private final VendingMachineCashRepository vendingMachineCashRepository;
-
     private final VendingMachineCashMapper vendingMachineCashMapper;
+    private final VendingMachineService vendingMachineService;
 
-    public VendingMachineCashServiceImpl(VendingMachineCashRepository vendingMachineCashRepository, VendingMachineCashMapper vendingMachineCashMapper) {
+    public VendingMachineCashServiceImpl(
+            VendingMachineCashRepository vendingMachineCashRepository,
+            VendingMachineCashMapper vendingMachineCashMapper,
+            VendingMachineService vendingMachineService) {
         this.vendingMachineCashRepository = vendingMachineCashRepository;
         this.vendingMachineCashMapper = vendingMachineCashMapper;
+        this.vendingMachineService = vendingMachineService;
     }
 
     /**
@@ -101,5 +105,32 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
     public void delete(Long id) {
         log.debug("Request to delete VendingMachineCash : {}", id);
         vendingMachineCashRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<VendingMachineCashDTO> findAllByVendingMachineId(Long id, Pageable pageable) {
+        return vendingMachineCashRepository.findAllByVendingMachineId(id, pageable)
+                .map(vendingMachineCashMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<VendingMachineTotalDTO> getTotalCashByVendingMachineId(Long vendingMachineId) {
+        Optional<VendingMachineTotalDTO> ret = Optional.empty();
+        Optional<BigDecimal> tc = vendingMachineCashRepository.getTotalCoinByVendingMachineId(vendingMachineId);
+        Optional<BigDecimal> tb = vendingMachineCashRepository.getTotalBillByVendingMachineId(vendingMachineId);
+        BigDecimal tot = BigDecimal.ZERO;
+        if(tc.isPresent() || tb.isPresent()) {
+            VendingMachineTotalDTO d = new VendingMachineTotalDTO();
+            VendingMachineDTO vmd = vendingMachineService.find(vendingMachineId).get();
+            d.setId(vmd.getId());
+            d.setName(vmd.getName());
+            if(tc.isPresent()) tot = tot.add(tc.get());
+            if(tb.isPresent()) tot = tot.add(tb.get());
+            d.setTotal(tot);
+            ret = Optional.of(d);
+        }
+        return ret;
     }
 }

@@ -11,21 +11,16 @@ public class VendingMachineCashDTO extends AbstractAuditingDTO implements Serial
 
     private Long id;
 
-    @NotNull
     @Min(value = 0)
     private Integer coinQuantity;
 
-    @NotNull
     @Min(value = 0)
     private Integer billQuantity;
 
-    @NotNull
     private Long vendingMachineId;
 
-    @NotNull
     private Long coinTypeId;
 
-    @NotNull
     private Long billTypeId;
     
     public Long getId() {

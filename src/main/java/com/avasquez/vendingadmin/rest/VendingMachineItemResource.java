@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,14 +30,14 @@ public class VendingMachineItemResource {
         this.vendingMachineItemService = vendingMachineItemService;
     }
 
-    @GetMapping("/vending-machine-items")
+    @GetMapping("/vending-machines/items")
     public ResponseEntity<Page<VendingMachineItemDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of VendingMachineItem");
         Page<VendingMachineItemDTO> page = vendingMachineItemService.findAll(pageable);
         return new ResponseEntity<Page<VendingMachineItemDTO>>(page, null, HttpStatus.OK);
     }
 
-    @GetMapping("/vending-machine-items/{id}")
+    @GetMapping("/vending-machines/items/{id}")
     public ResponseEntity<VendingMachineItemDTO> get(@PathVariable Long id) {
         log.debug("REST request to get VendingMachineItem : {}", id);
         Optional<VendingMachineItemDTO> result = vendingMachineItemService.find(id);
@@ -45,19 +46,19 @@ public class VendingMachineItemResource {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/vending-machine-items")
+    @PostMapping("/vending-machines/items")
     public ResponseEntity<VendingMachineItemDTO> create(@RequestBody VendingMachineItemDTO dto) throws URISyntaxException {
         log.debug("REST request to save VendingMachineItem : {}", dto);
         if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
         VendingMachineItemDTO result = vendingMachineItemService.save(dto);
-        return ResponseEntity.created(new URI("/api/vending-machine-items" + result.getId()))
+        return ResponseEntity.created(new URI("/api /vending-machine/items" + result.getId()))
                 .body(result);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/vending-machine-items")
+    @PutMapping("/vending-machines/items")
     public ResponseEntity<VendingMachineItemDTO> update(@RequestBody VendingMachineItemDTO dto) throws URISyntaxException {
         log.debug("REST request to update VendingMachineItem : {}", dto);
         if (dto.getId() == null) {
@@ -68,10 +69,29 @@ public class VendingMachineItemResource {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/vending-machine-items/{id}")
+    @DeleteMapping("/vending-machines/items/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete VendingMachineItem : {}", id);
         vendingMachineItemService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/vending-machines/{id}/items")
+    public ResponseEntity<Page<VendingMachineItemDTO>> getByVendingMachine(@PathVariable Long id, Pageable pageable) {
+        log.debug("REST request to get VendingMachineItemDTO items: {}", id);
+        Page<VendingMachineItemDTO> result = vendingMachineItemService.findAllByVendingMachineId(id, pageable);
+        return new ResponseEntity<Page<VendingMachineItemDTO>>(result, null, HttpStatus.OK);
+    }
+
+    @PostMapping("/vending-machines/{id}/items")
+    public ResponseEntity<List<VendingMachineItemDTO>> createItems(
+            @PathVariable Long id, @RequestBody List<VendingMachineItemDTO> dtos) throws URISyntaxException {
+        log.debug("REST request to get VendingMachineItemDTO items: {}", id);
+        dtos.forEach(
+                i -> i.setVendingMachineId(id)
+        );
+        List<VendingMachineItemDTO> result = vendingMachineItemService.save(dtos);
+        return ResponseEntity.created(new URI("/api/vending-machines/"+"id"+"/items"))
+                .body(result);
     }
 }

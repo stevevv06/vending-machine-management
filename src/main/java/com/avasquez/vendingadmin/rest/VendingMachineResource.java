@@ -2,7 +2,7 @@ package com.avasquez.vendingadmin.rest;
 
 import com.avasquez.vendingadmin.service.api.VendingMachineService;
 import com.avasquez.vendingadmin.service.dto.VendingMachineDTO;
-import com.avasquez.vendingadmin.service.dto.VendingMachineWithItemsDTO;
+import com.avasquez.vendingadmin.service.dto.VendingMachineTotalDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -89,27 +89,6 @@ public class VendingMachineResource {
         log.debug("REST request to delete VendingMachineDTO : {}", id);
         vendingMachineService.delete(id);
         return ResponseEntity.ok().build();
-    }
-
-
-    @GetMapping("/vending-machines/{id}/items")
-    public ResponseEntity<VendingMachineWithItemsDTO> getItems(@PathVariable Long id) {
-        log.debug("REST request to get VendingMachineDTO items: {}", id);
-        Optional<VendingMachineWithItemsDTO> result = vendingMachineService.findWithItems(id);
-        return result.map(response -> ResponseEntity.ok().body(response))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("/vending-machines/{id}/items")
-    public ResponseEntity<VendingMachineWithItemsDTO> createItems(@PathVariable Long id, @RequestBody VendingMachineWithItemsDTO dto) throws URISyntaxException {
-        log.debug("REST request to get VendingMachineDTO items: {}", id);
-        dto.setId(id);
-        dto.getVendingMachineItems().forEach(
-                i -> i.setVendingMachineId(id)
-        );
-        VendingMachineWithItemsDTO result = vendingMachineService.save(dto);
-        return ResponseEntity.created(new URI("/api/vending-machines/"+"id"+"/items"))
-                .body(result);
     }
 
 }
