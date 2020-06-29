@@ -11,6 +11,7 @@ import com.avasquez.vendingadmin.service.dto.VendingMachineTotalDTO;
 import com.avasquez.vendingadmin.service.mapper.CollectionAlertMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,15 +33,13 @@ public class CollectionAlertServiceImpl implements CollectionAlertService {
     private final Logger log = LoggerFactory.getLogger(CollectionAlertServiceImpl.class);
     private final CollectionAlertRepository collectionAlertRepository;
     private final CollectionAlertMapper collectionAlertMapper;
-    private final VendingMachineCashService vendingMachineCashService;
+    private VendingMachineCashService vendingMachineCashService;
 
     public CollectionAlertServiceImpl(
             CollectionAlertRepository collectionAlertRepository,
-            CollectionAlertMapper collectionAlertMapper,
-            VendingMachineCashService vendingMachineCashService) {
+            CollectionAlertMapper collectionAlertMapper) {
         this.collectionAlertRepository = collectionAlertRepository;
         this.collectionAlertMapper = collectionAlertMapper;
-        this.vendingMachineCashService = vendingMachineCashService;
     }
 
     /**
@@ -135,4 +134,10 @@ public class CollectionAlertServiceImpl implements CollectionAlertService {
             }
         }
     }
+
+    @Autowired
+    public void setVendingMachineCashService(VendingMachineCashService vendingMachineCashService) {
+        this.vendingMachineCashService = vendingMachineCashService;
+    }
+
 }

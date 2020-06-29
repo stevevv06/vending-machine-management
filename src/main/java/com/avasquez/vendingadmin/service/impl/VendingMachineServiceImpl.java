@@ -1,10 +1,9 @@
 package com.avasquez.vendingadmin.service.impl;
 
+import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.domain.VendingMachine;
 import com.avasquez.vendingadmin.repository.VendingMachineRepository;
-import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
-import com.avasquez.vendingadmin.service.api.VendingMachineItemService;
-import com.avasquez.vendingadmin.service.api.VendingMachineService;
+import com.avasquez.vendingadmin.service.api.*;
 import com.avasquez.vendingadmin.service.dto.*;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineItemMapper;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineMapper;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +27,7 @@ import java.util.Optional;
 public class VendingMachineServiceImpl implements VendingMachineService {
 
     private final Logger log = LoggerFactory.getLogger(VendingMachineServiceImpl.class);
-
     private final VendingMachineRepository vendingMachineRepository;
-
     private final VendingMachineMapper vendingMachineMapper;
 
     public VendingMachineServiceImpl(VendingMachineRepository vendingMachineRepository,
@@ -78,8 +76,9 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         log.debug("Request to get all VendingMachines");
         return vendingMachineRepository.findAll(pageable)
             .map(e -> {
-                e.setUnlockCode(null);
-                return vendingMachineMapper.toDto(e);
+                VendingMachineDTO d = vendingMachineMapper.toDto(e);
+                d.setUnlockCode(null);
+                return d;
             });
     }
 
@@ -96,8 +95,9 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         log.debug("Request to get VendingMachine : {}", id);
         return vendingMachineRepository.findById(id)
             .map(e -> {
-                e.setUnlockCode(null);
-                return vendingMachineMapper.toDto(e);
+                VendingMachineDTO d = vendingMachineMapper.toDto(e);
+                d.setUnlockCode(null);
+                return d;
             });
     }
 
@@ -110,5 +110,19 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     public void delete(Long id) {
         log.debug("Request to delete VendingMachine : {}", id);
         vendingMachineRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean checkUnlockCode(Long vendingMachineId, String unlockCode) {
+        boolean ret = false;
+        Optional<VendingMachine> opt = vendingMachineRepository.findById(vendingMachineId);
+        if (opt.isPresent()) {
+            VendingMachine vm = opt.get();
+            if (vm.getUnlockCode().compareTo(unlockCode) == 0) {
+                ret = true;
+            }
+        }
+        return ret;
     }
 }

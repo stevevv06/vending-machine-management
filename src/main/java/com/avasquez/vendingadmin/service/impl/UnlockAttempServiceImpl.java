@@ -14,8 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link UnlockAttemp}.
@@ -90,6 +92,13 @@ public class UnlockAttempServiceImpl implements UnlockAttempService {
         log.debug("Request to get UnlockAttemp : {}", id);
         return unlockAttempRepository.findById(id)
             .map(unlockAttempMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UnlockAttempDTO> findByVendingMachineId(Long vendingMachineId) {
+        return unlockAttempRepository.findByVendingMachineIdAndUnlockDate(vendingMachineId, LocalDate.now()).stream()
+                .map(unlockAttempMapper::toDto).collect(Collectors.toList());
     }
 
     /**

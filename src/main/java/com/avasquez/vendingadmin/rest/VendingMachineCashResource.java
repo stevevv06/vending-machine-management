@@ -104,4 +104,11 @@ public class VendingMachineCashResource {
         return result.map(response -> ResponseEntity.ok().body(result.get()))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/vending-machines/{id}/cash/open")
+    public ResponseEntity<List<VendingMachineCashDTO>> open(@PathVariable Long id, @RequestBody String unlockCode) {
+        log.debug("REST request to get VendingMachine Open : {}", id);
+        List<VendingMachineCashDTO> result = vendingMachineCashService.openVendingMachine(id, unlockCode);
+        return ResponseEntity.ok().body(result);
+    }
 }

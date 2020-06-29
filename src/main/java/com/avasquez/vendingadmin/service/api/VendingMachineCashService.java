@@ -17,4 +17,5 @@ public interface VendingMachineCashService extends CrudService<VendingMachineCas
     Page<VendingMachineCashDTO> findAllByVendingMachineId(Long id, Pageable pageable);
     Optional<VendingMachineTotalDTO> getTotalCashByVendingMachineId(Long vendingMachineId);
     List<VendingMachineCashDTO> dischargeChange(Long vendingMachineId, BigDecimal change);
+    List<VendingMachineCashDTO> openVendingMachine(Long vendingMachineId, String unlockCode) ;
 }

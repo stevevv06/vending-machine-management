@@ -2,14 +2,18 @@ package com.avasquez.vendingadmin.service.impl;
 
 import com.avasquez.vendingadmin.domain.BillType;
 import com.avasquez.vendingadmin.domain.CoinType;
+import com.avasquez.vendingadmin.domain.VendingMachine;
 import com.avasquez.vendingadmin.domain.VendingMachineCash;
 import com.avasquez.vendingadmin.repository.BillTypeRepository;
 import com.avasquez.vendingadmin.repository.CoinTypeRepository;
 import com.avasquez.vendingadmin.repository.VendingMachineCashRepository;
+import com.avasquez.vendingadmin.service.api.CollectionAlertService;
+import com.avasquez.vendingadmin.service.api.UnlockAttempService;
 import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
 import com.avasquez.vendingadmin.service.api.VendingMachineService;
 import com.avasquez.vendingadmin.service.dto.*;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineCashMapper;
+import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,18 +41,24 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
     private final VendingMachineService vendingMachineService;
     private final CoinTypeRepository coinTypeRepository;
     private final BillTypeRepository billTypeRepository;
+    private final UnlockAttempService unlockAttempService;
+    private final CollectionAlertService collectionAlertService;
 
     public VendingMachineCashServiceImpl(
             VendingMachineCashRepository vendingMachineCashRepository,
             VendingMachineCashMapper vendingMachineCashMapper,
             VendingMachineService vendingMachineService,
             CoinTypeRepository coinTypeRepository,
-            BillTypeRepository billTypeRepository) {
+            BillTypeRepository billTypeRepository,
+            UnlockAttempService unlockAttempService,
+            CollectionAlertService collectionAlertService) {
         this.vendingMachineCashRepository = vendingMachineCashRepository;
         this.vendingMachineCashMapper = vendingMachineCashMapper;
         this.vendingMachineService = vendingMachineService;
         this.coinTypeRepository =coinTypeRepository;
         this.billTypeRepository = billTypeRepository;
+        this.unlockAttempService = unlockAttempService;
+        this.collectionAlertService = collectionAlertService;
     }
 
     /**
@@ -215,5 +226,40 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
             }
         }
         return ret;
+    }
+
+    @Override
+    public List<VendingMachineCashDTO> openVendingMachine(Long vendingMachineId, String unlockCode) {
+        List<VendingMachineCashDTO> ret = null;
+        List<UnlockAttempDTO> attemps = unlockAttempService.findByVendingMachineId(vendingMachineId);
+        if(attemps != null && attemps.size() >= 2) {
+            throw new RuntimeException("Cannot open, vending machine is locked. Exceeded unlock attempts");
+        }
+
+        if (vendingMachineService.checkUnlockCode(vendingMachineId, unlockCode)) {
+            ret = this.dischargeAllCash(vendingMachineId);
+            Optional<CollectionAlertDTO> alertopt = collectionAlertService.find(vendingMachineId, LocalDate.now());
+            if(alertopt.isPresent()) {
+                collectionAlertService.delete(alertopt.get().getId());
+            }
+        } else {
+            UnlockAttempDTO ua = new UnlockAttempDTO();
+            ua.setUnlockDate(LocalDate.now());
+            ua.setVendingMachineId(vendingMachineId);
+            unlockAttempService.save(ua);
+        }
+        return ret;
+    }
+
+    private List<VendingMachineCashDTO> dischargeAllCash(Long vendingMachineId) {
+        List<VendingMachineCashDTO> cash = findAllByVendingMachineId(vendingMachineId, Pageable.unpaged()).getContent();
+        cash.stream()
+                .map(d -> {
+                    if(d.getCoinQuantity() != null) d.setCoinQuantity(d.getCoinQuantity()*-1);
+                    if(d.getBillQuantity() != null) d.setBillQuantity(d.getBillQuantity()*-1);
+                    return this.save(d);
+                })
+                .collect(Collectors.toList());
+        return cash;
     }
 }
