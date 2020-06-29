@@ -3,6 +3,7 @@ package com.avasquez.vendingadmin.service.impl;
 import com.avasquez.vendingadmin.domain.*;
 import com.avasquez.vendingadmin.domain.enumeration.PaymentType;
 import com.avasquez.vendingadmin.repository.*;
+import com.avasquez.vendingadmin.service.api.CollectionAlertService;
 import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
 import com.avasquez.vendingadmin.service.api.VendingMachineService;
 import com.avasquez.vendingadmin.service.api.VendingMachineTransactionService;
@@ -35,6 +36,7 @@ public class VendingMachineTransactionServiceImpl implements VendingMachineTrans
     private final VendingMachineTransactionRepository vendingMachineTransactionRepository;
     private final VendingMachineTransactionMapper vendingMachineTransactionMapper;
     private final VendingMachineCashService vendingMachineCashService;
+    private final CollectionAlertService collectionAlertService;
     private final VendingMachineRepository vendingMachineRepository;
     private final CoinTypeRepository coinTypeRepository;
     private final BillTypeRepository billTypeRepository;
@@ -44,6 +46,7 @@ public class VendingMachineTransactionServiceImpl implements VendingMachineTrans
             VendingMachineTransactionRepository vendingMachineTransactionRepository,
             VendingMachineTransactionMapper vendingMachineTransactionMapper,
             VendingMachineCashService vendingMachineCashService,
+            CollectionAlertService collectionAlertService,
             VendingMachineRepository vendingMachineRepository,
             CoinTypeRepository coinTypeRepository,
             BillTypeRepository billTypeRepository,
@@ -52,6 +55,7 @@ public class VendingMachineTransactionServiceImpl implements VendingMachineTrans
         this.vendingMachineTransactionRepository = vendingMachineTransactionRepository;
         this.vendingMachineTransactionMapper = vendingMachineTransactionMapper;
         this.vendingMachineCashService = vendingMachineCashService;
+        this.collectionAlertService = collectionAlertService;
         this.vendingMachineRepository = vendingMachineRepository;
         this.coinTypeRepository = coinTypeRepository;
         this.billTypeRepository = billTypeRepository;
@@ -72,6 +76,8 @@ public class VendingMachineTransactionServiceImpl implements VendingMachineTrans
         }
         VendingMachineTransaction vendingMachineTransaction = vendingMachineTransactionMapper.toEntity(vendingMachineTransactionDTO);
         vendingMachineTransaction = vendingMachineTransactionRepository.save(vendingMachineTransaction);
+        //Verify cash in machine and sends alert if apply
+        collectionAlertService.checkCashAndTriggerAlert(vendingMachineTransactionDTO.getVendingMachineId());
         return vendingMachineTransactionMapper.toDto(vendingMachineTransaction);
     }
 
@@ -187,6 +193,7 @@ public class VendingMachineTransactionServiceImpl implements VendingMachineTrans
         return d;
     }
 
+    @Transactional(readOnly = true)
     private boolean validatePaymentMethod(Long vendingMachineId, PaymentType paymentType) {
         boolean valid = false;
         Optional<VendingMachine> vmopt = vendingMachineRepository.findById(vendingMachineId);

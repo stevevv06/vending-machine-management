@@ -1,19 +1,24 @@
 package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.vendingadmin.domain.CoinType;
 import com.avasquez.vendingadmin.domain.CollectionAlert;
+import com.avasquez.vendingadmin.domain.VendingMachine_;
 import com.avasquez.vendingadmin.repository.CollectionAlertRepository;
+import com.avasquez.vendingadmin.repository.VendingMachineCashRepository;
 import com.avasquez.vendingadmin.service.api.CollectionAlertService;
-import com.avasquez.vendingadmin.service.dto.CoinTypeDTO;
+import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
 import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
+import com.avasquez.vendingadmin.service.dto.VendingMachineTotalDTO;
 import com.avasquez.vendingadmin.service.mapper.CollectionAlertMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,10 +32,15 @@ public class CollectionAlertServiceImpl implements CollectionAlertService {
     private final Logger log = LoggerFactory.getLogger(CollectionAlertServiceImpl.class);
     private final CollectionAlertRepository collectionAlertRepository;
     private final CollectionAlertMapper collectionAlertMapper;
+    private final VendingMachineCashService vendingMachineCashService;
 
-    public CollectionAlertServiceImpl(CollectionAlertRepository collectionAlertRepository, CollectionAlertMapper collectionAlertMapper) {
+    public CollectionAlertServiceImpl(
+            CollectionAlertRepository collectionAlertRepository,
+            CollectionAlertMapper collectionAlertMapper,
+            VendingMachineCashService vendingMachineCashService) {
         this.collectionAlertRepository = collectionAlertRepository;
         this.collectionAlertMapper = collectionAlertMapper;
+        this.vendingMachineCashService = vendingMachineCashService;
     }
 
     /**
@@ -90,6 +100,15 @@ public class CollectionAlertServiceImpl implements CollectionAlertService {
             .map(collectionAlertMapper::toDto);
     }
 
+    @Override
+    @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
+    public Optional<CollectionAlertDTO> find(Long vendingMachineId, LocalDate alertDate) {
+        log.debug("Request to get CollectionAlert : {} {}", vendingMachineId, alertDate);
+        return collectionAlertRepository.findByVendingMachineIdAndAlertDate(
+                vendingMachineId, alertDate)
+                .map(collectionAlertMapper::toDto);
+    }
+
     /**
      * Delete the collectionAlert by id.
      *
@@ -101,7 +120,19 @@ public class CollectionAlertServiceImpl implements CollectionAlertService {
         collectionAlertRepository.deleteById(id);
     }
 
+    @Override
     public void checkCashAndTriggerAlert(Long vendingMachineId) {
-
+        Optional<VendingMachineTotalDTO> totOpt = vendingMachineCashService.getTotalCashByVendingMachineId(vendingMachineId);
+        if(totOpt.isPresent()) {
+            BigDecimal tot = totOpt.get().getTotal();
+            if(tot.compareTo(new BigDecimal("100")) >= 0) {
+                CollectionAlertDTO alert = new CollectionAlertDTO();
+                alert.setAlertDate(LocalDate.now());
+                alert.setVendingMachineId(vendingMachineId);
+                Optional<CollectionAlertDTO> existing = find(alert.getVendingMachineId(), alert.getAlertDate());
+                if(!existing.isPresent())
+                    this.save(alert);
+            }
+        }
     }
 }

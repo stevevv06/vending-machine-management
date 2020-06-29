@@ -15,7 +15,6 @@ public class VendingMachineDTO extends AbstractAuditingDTO implements Serializab
     @Size(max = 150)
     private String name;
 
-    @NotNull
     @Size(max = 10)
     private String unlockCode;
 

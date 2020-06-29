@@ -30,9 +30,9 @@ public class VendingMachine extends AbstractAuditingEntity implements Serializab
     @Column(name = "name", length = 150, nullable = false)
     private String name;
 
-    @NotNull
+    //@NotNull
     @Size(max = 10)
-    @Column(name = "unlock_code", length = 10, nullable = false)
+    @Column(name = "unlock_code", length = 10)
     private String unlockCode;
 
     @NotNull
@@ -167,7 +167,6 @@ public class VendingMachine extends AbstractAuditingEntity implements Serializab
         return "VendingMachine{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", unlockCode='" + getUnlockCode() + "'" +
             ", statusOnline='" + isStatusOnline() + "'" +
             "}";
     }
