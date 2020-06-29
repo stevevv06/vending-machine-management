@@ -1,10 +1,8 @@
 package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.vendingadmin.domain.VendingMachineCash;
 import com.avasquez.vendingadmin.domain.VendingMachineItem;
 import com.avasquez.vendingadmin.repository.VendingMachineItemRepository;
 import com.avasquez.vendingadmin.service.api.VendingMachineItemService;
-import com.avasquez.vendingadmin.service.dto.VendingMachineCashDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineItemDTO;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineItemMapper;
 import org.slf4j.Logger;

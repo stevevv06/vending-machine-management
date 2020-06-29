@@ -1,9 +1,10 @@
 package com.avasquez.vendingadmin.service.mapper;
 
 
-import com.avasquez.vendingadmin.domain.*;
+import com.avasquez.vendingadmin.domain.CollectionAlert;
 import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Mapper for the entity {@link CollectionAlert} and its DTO {@link CollectionAlertDTO}.

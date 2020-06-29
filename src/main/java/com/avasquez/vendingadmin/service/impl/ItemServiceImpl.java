@@ -1,10 +1,8 @@
 package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.vendingadmin.domain.CollectionAlert;
 import com.avasquez.vendingadmin.domain.Item;
 import com.avasquez.vendingadmin.repository.ItemRepository;
 import com.avasquez.vendingadmin.service.api.ItemService;
-import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
 import com.avasquez.vendingadmin.service.dto.ItemDTO;
 import com.avasquez.vendingadmin.service.mapper.ItemMapper;
 import org.slf4j.Logger;
@@ -16,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Service Implementation for managing {@link Item}.

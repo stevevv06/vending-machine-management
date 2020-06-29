@@ -2,13 +2,11 @@ package com.avasquez.vendingadmin.service.impl;
 
 import com.avasquez.vendingadmin.domain.Role;
 import com.avasquez.vendingadmin.domain.RoleName;
-import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.domain.User;
 import com.avasquez.vendingadmin.repository.RoleRepository;
 import com.avasquez.vendingadmin.repository.UserRepository;
 import com.avasquez.vendingadmin.security.SecurityUtils;
 import com.avasquez.vendingadmin.service.api.UserService;
-import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
 import com.avasquez.vendingadmin.service.dto.UserDTO;
 import com.avasquez.vendingadmin.service.mapper.UserMapper;
 import org.springframework.data.domain.Page;

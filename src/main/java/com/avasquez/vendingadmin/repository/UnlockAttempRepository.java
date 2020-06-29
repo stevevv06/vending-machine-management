@@ -1,7 +1,6 @@
 package com.avasquez.vendingadmin.repository;
 
 import com.avasquez.vendingadmin.domain.UnlockAttemp;
-import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

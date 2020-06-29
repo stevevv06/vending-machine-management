@@ -1,9 +1,10 @@
 package com.avasquez.vendingadmin.service.mapper;
 
 
-import com.avasquez.vendingadmin.domain.*;
+import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Mapper for the entity {@link UnlockAttemp} and its DTO {@link UnlockAttempDTO}.

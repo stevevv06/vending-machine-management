@@ -1,9 +1,10 @@
 package com.avasquez.vendingadmin.service.mapper;
 
 
-import com.avasquez.vendingadmin.domain.*;
+import com.avasquez.vendingadmin.domain.VendingMachine;
 import com.avasquez.vendingadmin.service.dto.VendingMachineDTO;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Mapper for the entity {@link VendingMachine} and its DTO {@link VendingMachineDTO}.

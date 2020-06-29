@@ -2,7 +2,6 @@ package com.avasquez.vendingadmin.service.impl;
 
 import com.avasquez.vendingadmin.domain.BillType;
 import com.avasquez.vendingadmin.domain.CoinType;
-import com.avasquez.vendingadmin.domain.VendingMachine;
 import com.avasquez.vendingadmin.domain.VendingMachineCash;
 import com.avasquez.vendingadmin.repository.BillTypeRepository;
 import com.avasquez.vendingadmin.repository.CoinTypeRepository;
@@ -13,7 +12,6 @@ import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
 import com.avasquez.vendingadmin.service.api.VendingMachineService;
 import com.avasquez.vendingadmin.service.dto.*;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineCashMapper;
-import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

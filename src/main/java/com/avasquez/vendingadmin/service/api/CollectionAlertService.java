@@ -1,8 +1,6 @@
 package com.avasquez.vendingadmin.service.api;
 
 import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.Optional;

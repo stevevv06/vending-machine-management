@@ -1,9 +1,10 @@
 package com.avasquez.vendingadmin.service.mapper;
 
 
-import com.avasquez.vendingadmin.domain.*;
+import com.avasquez.vendingadmin.domain.CoinType;
 import com.avasquez.vendingadmin.service.dto.CoinTypeDTO;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Mapper for the entity {@link CoinType} and its DTO {@link CoinTypeDTO}.

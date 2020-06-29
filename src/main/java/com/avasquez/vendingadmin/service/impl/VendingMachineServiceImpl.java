@@ -1,11 +1,12 @@
 package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.domain.VendingMachine;
 import com.avasquez.vendingadmin.repository.VendingMachineRepository;
-import com.avasquez.vendingadmin.service.api.*;
-import com.avasquez.vendingadmin.service.dto.*;
-import com.avasquez.vendingadmin.service.mapper.VendingMachineItemMapper;
+import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
+import com.avasquez.vendingadmin.service.api.VendingMachineService;
+import com.avasquez.vendingadmin.service.dto.VendingMachineDTO;
+import com.avasquez.vendingadmin.service.dto.VendingMachineReportDTO;
+import com.avasquez.vendingadmin.service.dto.VendingMachineTotalDTO;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

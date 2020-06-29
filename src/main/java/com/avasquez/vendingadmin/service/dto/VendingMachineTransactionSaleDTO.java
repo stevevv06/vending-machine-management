@@ -2,12 +2,8 @@ package com.avasquez.vendingadmin.service.dto;
 
 import com.avasquez.vendingadmin.domain.enumeration.PaymentType;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 /**

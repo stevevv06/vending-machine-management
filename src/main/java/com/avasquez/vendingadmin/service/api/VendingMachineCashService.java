@@ -1,7 +1,6 @@
 package com.avasquez.vendingadmin.service.api;
 
 import com.avasquez.vendingadmin.service.dto.VendingMachineCashDTO;
-import com.avasquez.vendingadmin.service.dto.VendingMachineItemDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineTotalDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

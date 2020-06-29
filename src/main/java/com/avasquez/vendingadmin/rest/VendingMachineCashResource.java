@@ -2,7 +2,6 @@ package com.avasquez.vendingadmin.rest;
 
 import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
 import com.avasquez.vendingadmin.service.dto.VendingMachineCashDTO;
-import com.avasquez.vendingadmin.service.dto.VendingMachineItemDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineTotalDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

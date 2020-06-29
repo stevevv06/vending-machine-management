@@ -1,7 +1,6 @@
 package com.avasquez.vendingadmin.service.dto;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 

@@ -1,10 +1,8 @@
 package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.vendingadmin.domain.BillType;
 import com.avasquez.vendingadmin.domain.CoinType;
 import com.avasquez.vendingadmin.repository.CoinTypeRepository;
 import com.avasquez.vendingadmin.service.api.CoinTypeService;
-import com.avasquez.vendingadmin.service.dto.BillTypeDTO;
 import com.avasquez.vendingadmin.service.dto.CoinTypeDTO;
 import com.avasquez.vendingadmin.service.mapper.CoinTypeMapper;
 import org.slf4j.Logger;

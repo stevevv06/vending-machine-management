@@ -1,10 +1,8 @@
 package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.vendingadmin.domain.CollectionAlert;
 import com.avasquez.vendingadmin.domain.UnlockAttemp;
 import com.avasquez.vendingadmin.repository.UnlockAttempRepository;
 import com.avasquez.vendingadmin.service.api.UnlockAttempService;
-import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
 import com.avasquez.vendingadmin.service.dto.UnlockAttempDTO;
 import com.avasquez.vendingadmin.service.mapper.UnlockAttempMapper;
 import org.slf4j.Logger;

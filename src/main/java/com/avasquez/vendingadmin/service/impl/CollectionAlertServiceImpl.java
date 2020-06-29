@@ -1,9 +1,7 @@
 package com.avasquez.vendingadmin.service.impl;
 
 import com.avasquez.vendingadmin.domain.CollectionAlert;
-import com.avasquez.vendingadmin.domain.VendingMachine_;
 import com.avasquez.vendingadmin.repository.CollectionAlertRepository;
-import com.avasquez.vendingadmin.repository.VendingMachineCashRepository;
 import com.avasquez.vendingadmin.service.api.CollectionAlertService;
 import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
 import com.avasquez.vendingadmin.service.dto.CollectionAlertDTO;
