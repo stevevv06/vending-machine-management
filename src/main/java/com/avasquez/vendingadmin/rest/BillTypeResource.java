@@ -29,6 +29,7 @@ public class BillTypeResource {
         this.billTypeService = billTypeService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/bill-types")
     public ResponseEntity<Page<BillTypeDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of BillTypes");
@@ -36,6 +37,7 @@ public class BillTypeResource {
         return new ResponseEntity<Page<BillTypeDTO>>(page, null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/bill-types/{id}")
     public ResponseEntity<BillTypeDTO> get(@PathVariable Long id) {
         log.debug("REST request to get BillType : {}", id);

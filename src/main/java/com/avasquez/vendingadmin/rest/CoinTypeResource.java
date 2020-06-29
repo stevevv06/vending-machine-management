@@ -29,6 +29,7 @@ public class CoinTypeResource {
         this.coinTypeService = coinTypeService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/coin-types")
     public ResponseEntity<Page<CoinTypeDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of CoinTypes");
@@ -36,6 +37,7 @@ public class CoinTypeResource {
         return new ResponseEntity<Page<CoinTypeDTO>>(page, null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/coin-types/{id}")
     public ResponseEntity<CoinTypeDTO> get(@PathVariable Long id) {
         log.debug("REST request to get CoinType : {}", id);

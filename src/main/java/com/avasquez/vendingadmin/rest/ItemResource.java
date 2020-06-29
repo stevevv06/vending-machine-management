@@ -30,6 +30,7 @@ public class ItemResource {
         this.itemService = itemService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/items")
     public ResponseEntity<Page<ItemDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of Items");
@@ -37,6 +38,7 @@ public class ItemResource {
         return new ResponseEntity<Page<ItemDTO>>(page, null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/items/{id}")
     public ResponseEntity<ItemDTO> get(@PathVariable Long id) {
         log.debug("REST request to get Item : {}", id);

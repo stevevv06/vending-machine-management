@@ -30,6 +30,7 @@ public class VendingMachineItemResource {
         this.vendingMachineItemService = vendingMachineItemService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/vending-machines/items")
     public ResponseEntity<Page<VendingMachineItemDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of VendingMachineItem");
@@ -37,6 +38,7 @@ public class VendingMachineItemResource {
         return new ResponseEntity<Page<VendingMachineItemDTO>>(page, null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/vending-machines/items/{id}")
     public ResponseEntity<VendingMachineItemDTO> get(@PathVariable Long id) {
         log.debug("REST request to get VendingMachineItem : {}", id);

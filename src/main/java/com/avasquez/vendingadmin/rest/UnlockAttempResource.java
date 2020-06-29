@@ -29,6 +29,7 @@ public class UnlockAttempResource {
         this.unlockAttempService = unlockAttempService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/unlock-attemps")
     public ResponseEntity<Page<UnlockAttempDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of UnlockAttemps");
@@ -36,6 +37,7 @@ public class UnlockAttempResource {
         return new ResponseEntity<Page<UnlockAttempDTO>>(page, null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/unlock-attemps/{id}")
     public ResponseEntity<UnlockAttempDTO> get(@PathVariable Long id) {
         log.debug("REST request to get UnlockAttemp : {}", id);

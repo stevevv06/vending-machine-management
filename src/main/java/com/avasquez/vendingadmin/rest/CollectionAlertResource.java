@@ -29,6 +29,7 @@ public class CollectionAlertResource {
         this.collectionAlertService = collectionAlertService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/collection-alerts")
     public ResponseEntity<Page<CollectionAlertDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of CollectionAlerts");
@@ -36,6 +37,7 @@ public class CollectionAlertResource {
         return new ResponseEntity<Page<CollectionAlertDTO>>(page, null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/collection-alerts/{id}")
     public ResponseEntity<CollectionAlertDTO> get(@PathVariable Long id) {
         log.debug("REST request to get CollectionAlert : {}", id);
