@@ -1,0 +1,1871 @@
+{
+	"info": {
+		"_postman_id": "db2c8d20-69ff-460b-b94b-d814ca8c139c",
+		"name": "VendingMachine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "oauth",
+			"item": [
+				{
+					"name": "signup user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"user\",\r\n\t\"email\": \"user@gmail.com\",\r\n\t\"role\": [\"ROLE_USER\"],\r\n\t\"password\": \"1234567\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth-api}}/signup",
+							"host": [
+								"{{auth-api}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"admin\",\r\n\t\"email\": \"admin@gmail.com\",\r\n\t\"role\": [\"ROLE_ADMIN\"],\r\n\t\"password\": \"1234567\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth-api}}/signup",
+							"host": [
+								"{{auth-api}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signin user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1f98626e-7616-4103-84f6-79213b80f475",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token\", jsonData.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"username\": \"user\",\r\n\"password\": \"1234567\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth-api}}/signin",
+							"host": [
+								"{{auth-api}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signin admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a928e7ae-d1ad-44ba-8011-af7ffae7129a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token\", jsonData.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"username\": \"admin\",\r\n\"password\": \"1234567\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth-api}}/signin",
+							"host": [
+								"{{auth-api}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vending Machine",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3336d10b-b4c8-40ee-8995-2a623d1bbd57",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "movie3",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Machine2\",\n    \"unlockCode\": \"1234\",\n    \"statusOnline\": \"true\",\n    \"vendingMachineModelId\": \"2\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}",
+							"host": [
+								"{{vending-machine-api}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Batch",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"name\": \"Machine1\",\n        \"unlockCode\": \"1234\",\n        \"statusOnline\": \"true\",\n        \"vendingMachineModelId\": \"1\"\n    },\n    {\n        \"name\": \"Machine2\",\n        \"unlockCode\": \"1234\",\n        \"statusOnline\": \"true\",\n        \"vendingMachineModelId\": \"2\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/batch",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 1,\r\n            \"title\": \"movie1\",\r\n            \"description\": \"movie1\",\r\n            \"image\": \"aGVsbG8K\",\r\n            \"imageContentType\": \"application/jpg\",\r\n            \"stock\": 5,\r\n            \"rentalPrice\": 5.00,\r\n            \"salePrice\": 20.00,\r\n            \"available\": true\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}",
+							"host": [
+								"{{vending-machine-api}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/1",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Item",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{item-api}}/1",
+							"host": [
+								"{{item-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2b8af367-74c5-415f-a163-1e578f2c0544",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{item-api}}",
+							"host": [
+								"{{item-api}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "movie3",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Item1\",\n    \"code\": \"Item1\",\n    \"price\": 0.25\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{item-api}}",
+							"host": [
+								"{{item-api}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Batch",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"name\": \"Item1\",\n        \"code\": \"Item1\",\n        \"price\": 0.25\n    },\n    {\n        \"name\": \"Item2\",\n        \"code\": \"Item2\",\n        \"price\": 0.50\n    },\n    {\n        \"name\": \"Item3\",\n        \"code\": \"Item3\",\n        \"price\": 0.65\n    },\n    {\n        \"name\": \"Item4\",\n        \"code\": \"Item4\",\n        \"price\": 1\n    },\n    {\n        \"name\": \"Item5\",\n        \"code\": \"Item5\",\n        \"price\": 1.15\n    }\n\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{item-api}}/batch",
+							"host": [
+								"{{item-api}}"
+							],
+							"path": [
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 1,\r\n            \"title\": \"movie1\",\r\n            \"description\": \"movie1\",\r\n            \"image\": \"aGVsbG8K\",\r\n            \"imageContentType\": \"application/jpg\",\r\n            \"stock\": 5,\r\n            \"rentalPrice\": 5.00,\r\n            \"salePrice\": 20.00,\r\n            \"available\": true\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{item-api}}",
+							"host": [
+								"{{item-api}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{item-api}}/1",
+							"host": [
+								"{{item-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vending Machine Item",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-item-api}}/1",
+							"host": [
+								"{{vending-machine-item-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "840e57c7-c996-46e4-8af6-4f5091507997",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-item-api}}",
+							"host": [
+								"{{vending-machine-item-api}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"name\": \"Machine1\",\n        \"unlockCode\": \"1234\",\n        \"statusOnline\": \"true\",\n        \"vendingMachineModelId\": \"1\"\n    },\n    {\n        \"name\": \"Machine2\",\n        \"unlockCode\": \"1234\",\n        \"statusOnline\": \"true\",\n        \"vendingMachineModelId\": \"2\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-item-api}}",
+							"host": [
+								"{{vending-machine-item-api}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 1,\r\n            \"title\": \"movie1\",\r\n            \"description\": \"movie1\",\r\n            \"image\": \"aGVsbG8K\",\r\n            \"imageContentType\": \"application/jpg\",\r\n            \"stock\": 5,\r\n            \"rentalPrice\": 5.00,\r\n            \"salePrice\": 20.00,\r\n            \"available\": true\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-item-api}}/1",
+							"host": [
+								"{{vending-machine-item-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-item-api}}/1",
+							"host": [
+								"{{vending-machine-item-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/items",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"itemId\": 1,\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"itemId\": 2,\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"itemId\": 3,\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"itemId\": 4,\r\n            \"quantity\": 10\r\n        },\r\n        {\r\n            \"itemId\": 5,\r\n            \"quantity\": 10\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/1/items",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"items"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vending Machine Cash",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-cash-api}}/1",
+							"host": [
+								"{{vending-machine-cash-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "17304968-a9fd-46cb-94ee-e3ac563bb761",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-cash-api}}",
+							"host": [
+								"{{vending-machine-cash-api}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"vendingMachineId\": 1,\n        \"billTypeId\": 1,\n        \"billQuantity\": 10\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-cash-api}}",
+							"host": [
+								"{{vending-machine-cash-api}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 1,\r\n            \"title\": \"movie1\",\r\n            \"description\": \"movie1\",\r\n            \"image\": \"aGVsbG8K\",\r\n            \"imageContentType\": \"application/jpg\",\r\n            \"stock\": 5,\r\n            \"rentalPrice\": 5.00,\r\n            \"salePrice\": 20.00,\r\n            \"available\": true\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-cash-api}}/1",
+							"host": [
+								"{{vending-machine-cash-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-cash-api}}/1",
+							"host": [
+								"{{vending-machine-cash-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post cash",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"billTypeId\": 1,\n        \"billQuantity\": 10\n    },\n    {\n        \"billTypeId\": 2,\n        \"billQuantity\": 10\n    },\n    {\n        \"coinTypeId\": 1,\n        \"coinQuantity\": 10\n    },\n    {\n        \"coinTypeId\": 2,\n        \"coinQuantity\": 10\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/1/cash",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"cash"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cash total",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/cash/total",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"cash",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post open",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "12345",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/1/cash/open",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"cash",
+								"open"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vending Machine  Transaction",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-transaction-api}}/1",
+							"host": [
+								"{{vending-machine-transaction-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2357d3ef-7afa-44a2-bd21-ffa414507ceb",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-transaction-api}}",
+							"host": [
+								"{{vending-machine-transaction-api}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "15d58ef5-9681-421c-9097-499106743e22",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemId\": 1,\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"coinTypeValue\": 0.1,\n            \"coinQuantity\": 3\n        }\n    ]\n\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-transaction-api}}/sale",
+							"host": [
+								"{{vending-machine-transaction-api}}"
+							],
+							"path": [
+								"sale"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 1,\r\n            \"title\": \"movie1\",\r\n            \"description\": \"movie1\",\r\n            \"image\": \"aGVsbG8K\",\r\n            \"imageContentType\": \"application/jpg\",\r\n            \"stock\": 5,\r\n            \"rentalPrice\": 5.00,\r\n            \"salePrice\": 20.00,\r\n            \"available\": true\r\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-transaction-api}}/1",
+							"host": [
+								"{{vending-machine-transaction-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-transaction-api}}/1",
+							"host": [
+								"{{vending-machine-transaction-api}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profittotal",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/transactions/profit",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"transactions",
+								"profit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "count",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/transactions/count/2020-06-29",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"transactions",
+								"count",
+								"2020-06-29"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "RunTest Script",
+			"item": [
+				{
+					"name": "signup admin Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"admin\",\r\n\t\"email\": \"admin@gmail.com\",\r\n\t\"role\": [\"ROLE_ADMIN\"],\r\n\t\"password\": \"1234567\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth-api}}/signup",
+							"host": [
+								"{{auth-api}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signin admin Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "609bd307-91b6-4f82-ab6a-a4045a9a15e2",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"token\", jsonData.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"username\": \"admin\",\r\n\"password\": \"1234567\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth-api}}/signin",
+							"host": [
+								"{{auth-api}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Batch Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"name\": \"Machine1\",\n        \"unlockCode\": \"1234\",\n        \"statusOnline\": \"true\",\n        \"vendingMachineModelId\": \"1\"\n    },\n    {\n        \"name\": \"Machine2\",\n        \"unlockCode\": \"1234\",\n        \"statusOnline\": \"true\",\n        \"vendingMachineModelId\": \"2\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/batch",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll Vending Machines",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "79d96828-8cbb-4b49-929c-75ec150c79ab",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "movie3",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Batch Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"name\": \"Item1\",\n        \"code\": \"Item1\",\n        \"price\": 0.25\n    },\n    {\n        \"name\": \"Item2\",\n        \"code\": \"Item2\",\n        \"price\": 0.50\n    },\n    {\n        \"name\": \"Item3\",\n        \"code\": \"Item3\",\n        \"price\": 0.65\n    },\n    {\n        \"name\": \"Item4\",\n        \"code\": \"Item4\",\n        \"price\": 1\n    },\n    {\n        \"name\": \"Item5\",\n        \"code\": \"Item5\",\n        \"price\": 1.15\n    }\n\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{item-api}}/batch",
+							"host": [
+								"{{item-api}}"
+							],
+							"path": [
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll Items",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "171d03c0-6fbf-4edf-956b-fecaa0784c46",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{item-api}}",
+							"host": [
+								"{{item-api}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "movie3",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Vending Machine Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"itemId\": 1,\r\n        \"quantity\": 10\r\n    },\r\n    {\r\n        \"itemId\": 2,\r\n        \"quantity\": 10\r\n    },\r\n    {\r\n        \"itemId\": 3,\r\n        \"quantity\": 10\r\n    },\r\n    {\r\n        \"itemId\": 4,\r\n        \"quantity\": 10\r\n    },\r\n    {\r\n        \"itemId\": 5,\r\n        \"quantity\": 10\r\n    }\r\n]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/1/items",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll Vending Machine Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/items",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Vending Machine Cash",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"billTypeValue\": 1,\n        \"billQuantity\": 10\n    },\n    {\n        \"billTypeValue\": 2,\n        \"billQuantity\": 10\n    },\n    {\n        \"coinTypeValue\": 0.05,\n        \"coinQuantity\": 10\n    },\n    {\n        \"coinTypeValue\": 0.10,\n        \"coinQuantity\": 10\n    },\n    {\n        \"coinTypeValue\": 0.25,\n        \"coinQuantity\": 10\n    },\n    {\n        \"coinTypeValue\": 0.50,\n        \"coinQuantity\": 10\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/1/cash",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"cash"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cash total",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/cash/total",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"cash",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Vending Machine Transaction Sale",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f46b9665-3fd1-4f54-a0ea-c6362b6bad83",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemId\": 3,\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 1\n        }\n    ]\n\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-transaction-api}}/sale",
+							"host": [
+								"{{vending-machine-transaction-api}}"
+							],
+							"path": [
+								"sale"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Vending Machine Transaction Sale Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "491dad71-93fe-4c54-941e-774d66497525",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemId\": 3,\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 1\n        }\n    ]\n\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-transaction-api}}/sale",
+							"host": [
+								"{{vending-machine-transaction-api}}"
+							],
+							"path": [
+								"sale"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Vending Machine Transaction Sale Big",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ed4e55f1-e6db-4f2c-b8de-48b7b3269de1",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemId\": 4,\n    \"itemQuantity\": 100,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 50\n        }\n    ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-transaction-api}}/sale",
+							"host": [
+								"{{vending-machine-transaction-api}}"
+							],
+							"path": [
+								"sale"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cash total Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/cash/total",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"cash",
+								"total"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Vending Machine open",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "1234",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vending-machine-api}}/1/cash/open",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"cash",
+								"open"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Count Transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/transactions/count/2020-06-29",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"transactions",
+								"count",
+								"2020-06-29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions Profit",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vending-machine-api}}/1/transactions/profit",
+							"host": [
+								"{{vending-machine-api}}"
+							],
+							"path": [
+								"1",
+								"transactions",
+								"profit"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/vending-machines/report",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"vending-machines",
+						"report"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"protocolProfileBehavior": {}
+}
