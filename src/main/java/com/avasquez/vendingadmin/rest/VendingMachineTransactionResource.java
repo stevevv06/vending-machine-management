@@ -1,12 +1,14 @@
 package com.avasquez.vendingadmin.rest;
 
 import com.avasquez.vendingadmin.service.api.VendingMachineTransactionService;
+import com.avasquez.vendingadmin.service.dto.VendingMachineTotalDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineTransactionDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineTransactionSaleDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 /**
@@ -89,5 +92,24 @@ public class VendingMachineTransactionResource {
         VendingMachineTransactionDTO result = vendingMachineTransactionService.save(dto);
         return ResponseEntity.created(new URI("/api/vending-machines/transactions/" + result.getId()))
                 .body(result);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+        @GetMapping("/vending-machines/{id}/transactions/profit")
+    public ResponseEntity<VendingMachineTotalDTO> getTotalProfit(@PathVariable Long id) {
+        log.debug("REST request to get VendingMachineTotalDTO total profit: {}", id);
+        Optional<VendingMachineTotalDTO> result = vendingMachineTransactionService.getTotalProfitByVendingMachineId(id);
+        return result.map(response -> ResponseEntity.ok().body(result.get()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @GetMapping("/vending-machines/{id}/transactions/count/{transactionDate}")
+    public ResponseEntity<VendingMachineTotalDTO> getTotalProfit(@PathVariable Long id,
+                                                                 @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate transactionDate) {
+        log.debug("REST request to get VendingMachineTotalDTO count: {}", id);
+        Optional<VendingMachineTotalDTO> result = vendingMachineTransactionService.getCountTransactions(id, transactionDate);
+        return result.map(response -> ResponseEntity.ok().body(result.get()))
+                .orElse(ResponseEntity.notFound().build());
     }
 }

@@ -7,10 +7,7 @@ import com.avasquez.vendingadmin.service.api.CollectionAlertService;
 import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
 import com.avasquez.vendingadmin.service.api.VendingMachineService;
 import com.avasquez.vendingadmin.service.api.VendingMachineTransactionService;
-import com.avasquez.vendingadmin.service.dto.VendingMachineCashDTO;
-import com.avasquez.vendingadmin.service.dto.VendingMachineDTO;
-import com.avasquez.vendingadmin.service.dto.VendingMachineTransactionDTO;
-import com.avasquez.vendingadmin.service.dto.VendingMachineTransactionSaleDTO;
+import com.avasquez.vendingadmin.service.dto.*;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineTransactionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -207,5 +204,37 @@ public class VendingMachineTransactionServiceImpl implements VendingMachineTrans
             }
         }
         return valid;
+    }
+
+    @Override
+    public Optional<VendingMachineTotalDTO> getTotalProfitByVendingMachineId(Long vendingMachineId) {
+        VendingMachineTotalDTO ret = new VendingMachineTotalDTO();
+        ret.setId(vendingMachineId);
+        Optional<BigDecimal> opt = vendingMachineTransactionRepository.getTotalProfitByVendingMachineId(vendingMachineId);
+        if(opt.isPresent()) {
+            VendingMachine vmd = vendingMachineRepository.findById(vendingMachineId).get();
+            ret.setId(vmd.getId());
+            ret.setName(vmd.getName());
+            ret.setTotal(opt.get());
+        } else {
+            ret.setTotal(BigDecimal.ZERO);
+        }
+        return Optional.of(ret);
+    }
+
+    @Override
+    public Optional<VendingMachineTotalDTO> getCountTransactions(Long vendingMachineId, LocalDate transactionDate) {
+        VendingMachineTotalDTO ret = new VendingMachineTotalDTO();
+        ret.setId(vendingMachineId);
+        Optional<BigDecimal> opt = vendingMachineTransactionRepository.getCountByVendingMachineIdAndTransactionDate(vendingMachineId, transactionDate);
+        if(opt.isPresent()) {
+            VendingMachine vmd = vendingMachineRepository.findById(vendingMachineId).get();
+            ret.setId(vmd.getId());
+            ret.setName(vmd.getName());
+            ret.setTotal(opt.get());
+        } else {
+            ret.setTotal(BigDecimal.ZERO);
+        }
+        return Optional.of(ret);
     }
 }

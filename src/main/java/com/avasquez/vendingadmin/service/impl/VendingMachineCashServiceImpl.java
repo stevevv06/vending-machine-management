@@ -180,6 +180,11 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
             if(tb.isPresent()) tot = tot.add(tb.get());
             d.setTotal(tot);
             ret = Optional.of(d);
+        } else {
+            VendingMachineTotalDTO d = new VendingMachineTotalDTO();
+            d.setId(vendingMachineId);
+            d.setTotal(BigDecimal.ZERO);
+            ret = Optional.of(d);
         }
         return ret;
     }
