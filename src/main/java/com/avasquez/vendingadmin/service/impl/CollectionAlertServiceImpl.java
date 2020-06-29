@@ -25,9 +25,7 @@ import java.util.Optional;
 public class CollectionAlertServiceImpl implements CollectionAlertService {
 
     private final Logger log = LoggerFactory.getLogger(CollectionAlertServiceImpl.class);
-
     private final CollectionAlertRepository collectionAlertRepository;
-
     private final CollectionAlertMapper collectionAlertMapper;
 
     public CollectionAlertServiceImpl(CollectionAlertRepository collectionAlertRepository, CollectionAlertMapper collectionAlertMapper) {
@@ -101,5 +99,9 @@ public class CollectionAlertServiceImpl implements CollectionAlertService {
     public void delete(Long id) {
         log.debug("Request to delete CollectionAlert : {}", id);
         collectionAlertRepository.deleteById(id);
+    }
+
+    public void checkCashAndTriggerAlert(Long vendingMachineId) {
+
     }
 }

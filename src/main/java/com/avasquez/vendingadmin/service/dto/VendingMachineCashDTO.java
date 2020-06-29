@@ -3,6 +3,7 @@ package com.avasquez.vendingadmin.service.dto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * A DTO for the {@link com.avasquez.vendingadmin.domain.VendingMachineCash} entity.
@@ -21,7 +22,15 @@ public class VendingMachineCashDTO extends AbstractAuditingDTO implements Serial
 
     private Long coinTypeId;
 
+    private String coinTypeName;
+
+    private BigDecimal coinTypeValue;
+
     private Long billTypeId;
+
+    private String billTypeName;
+
+    private BigDecimal billTypeValue;
     
     public Long getId() {
         return id;
@@ -71,6 +80,38 @@ public class VendingMachineCashDTO extends AbstractAuditingDTO implements Serial
         this.billTypeId = billTypeId;
     }
 
+    public String getCoinTypeName() {
+        return coinTypeName;
+    }
+
+    public void setCoinTypeName(String coinTypeName) {
+        this.coinTypeName = coinTypeName;
+    }
+
+    public BigDecimal getCoinTypeValue() {
+        return coinTypeValue;
+    }
+
+    public void setCoinTypeValue(BigDecimal coinTypeValue) {
+        this.coinTypeValue = coinTypeValue;
+    }
+
+    public String getBillTypeName() {
+        return billTypeName;
+    }
+
+    public void setBillTypeName(String billTypeName) {
+        this.billTypeName = billTypeName;
+    }
+
+    public BigDecimal getBillTypeValue() {
+        return billTypeValue;
+    }
+
+    public void setBillTypeValue(BigDecimal billTypeValue) {
+        this.billTypeValue = billTypeValue;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -88,7 +129,7 @@ public class VendingMachineCashDTO extends AbstractAuditingDTO implements Serial
         return 31;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "VendingMachineCashDTO{" +

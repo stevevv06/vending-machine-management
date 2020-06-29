@@ -58,7 +58,7 @@ public class CollectionAlertDTO extends AbstractAuditingDTO implements Serializa
         return 31;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "CollectionAlertDTO{" +

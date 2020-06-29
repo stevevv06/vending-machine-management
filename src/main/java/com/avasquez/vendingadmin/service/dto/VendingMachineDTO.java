@@ -92,7 +92,7 @@ public class VendingMachineDTO extends AbstractAuditingDTO implements Serializab
         return 31;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "VendingMachineDTO{" +

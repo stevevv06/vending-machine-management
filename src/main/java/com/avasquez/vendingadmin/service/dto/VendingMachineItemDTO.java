@@ -90,7 +90,7 @@ public class VendingMachineItemDTO extends AbstractAuditingDTO implements Serial
         return 31;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "VendingMachineItemDTO{" +

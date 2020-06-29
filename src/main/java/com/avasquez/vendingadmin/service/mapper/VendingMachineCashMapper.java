@@ -13,7 +13,11 @@ public interface VendingMachineCashMapper extends EntityMapper<VendingMachineCas
 
     @Mapping(source = "vendingMachine.id", target = "vendingMachineId")
     @Mapping(source = "coinType.id", target = "coinTypeId")
+    @Mapping(source = "coinType.name", target = "coinTypeName")
+    @Mapping(source = "coinType.value", target = "coinTypeValue")
     @Mapping(source = "billType.id", target = "billTypeId")
+    @Mapping(source = "billType.name", target = "billTypeName")
+    @Mapping(source = "billType.value", target = "billTypeValue")
     VendingMachineCashDTO toDto(VendingMachineCash vendingMachineCash);
 
     @Mapping(source = "vendingMachineId", target = "vendingMachine")

@@ -1,7 +1,10 @@
 package com.avasquez.vendingadmin.service.impl;
 
-import com.avasquez.vendingadmin.domain.UnlockAttemp;
+import com.avasquez.vendingadmin.domain.BillType;
+import com.avasquez.vendingadmin.domain.CoinType;
 import com.avasquez.vendingadmin.domain.VendingMachineCash;
+import com.avasquez.vendingadmin.repository.BillTypeRepository;
+import com.avasquez.vendingadmin.repository.CoinTypeRepository;
 import com.avasquez.vendingadmin.repository.VendingMachineCashRepository;
 import com.avasquez.vendingadmin.service.api.VendingMachineCashService;
 import com.avasquez.vendingadmin.service.api.VendingMachineService;
@@ -15,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link VendingMachineCash}.
@@ -29,28 +34,63 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
     private final VendingMachineCashRepository vendingMachineCashRepository;
     private final VendingMachineCashMapper vendingMachineCashMapper;
     private final VendingMachineService vendingMachineService;
+    private final CoinTypeRepository coinTypeRepository;
+    private final BillTypeRepository billTypeRepository;
 
     public VendingMachineCashServiceImpl(
             VendingMachineCashRepository vendingMachineCashRepository,
             VendingMachineCashMapper vendingMachineCashMapper,
-            VendingMachineService vendingMachineService) {
+            VendingMachineService vendingMachineService,
+            CoinTypeRepository coinTypeRepository,
+            BillTypeRepository billTypeRepository) {
         this.vendingMachineCashRepository = vendingMachineCashRepository;
         this.vendingMachineCashMapper = vendingMachineCashMapper;
         this.vendingMachineService = vendingMachineService;
+        this.coinTypeRepository =coinTypeRepository;
+        this.billTypeRepository = billTypeRepository;
     }
 
     /**
      * Save a vendingMachineCash.
      *
-     * @param vendingMachineCashDTO the entity to save.
+     * @param dto the entity to save.
      * @return the persisted entity.
      */
     @Override
-    public VendingMachineCashDTO save(VendingMachineCashDTO vendingMachineCashDTO) {
-        log.debug("Request to save VendingMachineCash : {}", vendingMachineCashDTO);
-        VendingMachineCash vendingMachineCash = vendingMachineCashMapper.toEntity(vendingMachineCashDTO);
-        vendingMachineCash = vendingMachineCashRepository.save(vendingMachineCash);
-        return vendingMachineCashMapper.toDto(vendingMachineCash);
+    public VendingMachineCashDTO save(VendingMachineCashDTO dto) {
+        log.debug("Request to save VendingMachineCash : {}", dto);
+        if(dto.getCoinTypeValue() != null && dto.getCoinTypeId() == null) {
+            CoinType ct = coinTypeRepository.findByValue(dto.getCoinTypeValue()).get();
+            dto.setCoinTypeId(ct.getId());
+        }
+        if(dto.getBillTypeValue() != null && dto.getBillTypeId() == null) {
+            BillType ct = billTypeRepository.findByValue(dto.getBillTypeValue()).get();
+            dto.setBillTypeId(ct.getId());
+        }
+        VendingMachineCash ent = null;
+        if(dto.getCoinTypeId() != null) {
+            Optional<VendingMachineCash> opt = vendingMachineCashRepository.findByVendingMachineIdAndCoinTypeId(
+                    dto.getVendingMachineId(), dto.getCoinTypeId());
+            if(opt.isPresent()) {
+                ent = opt.get();
+                ent.setCoinQuantity(ent.getCoinQuantity() + dto.getCoinQuantity());
+            } else {
+                 ent = vendingMachineCashMapper.toEntity(dto);
+            }
+        }
+        if(dto.getBillTypeId() != null) {
+            Optional<VendingMachineCash> opt = vendingMachineCashRepository.findByVendingMachineIdAndBillTypeId(
+                    dto.getVendingMachineId(), dto.getBillTypeId());
+            if(opt.isPresent()) {
+                ent = opt.get();
+                ent.setBillQuantity(ent.getBillQuantity() + dto.getBillQuantity());
+            } else {
+                ent = vendingMachineCashMapper.toEntity(dto);
+            }
+        }
+
+        ent = vendingMachineCashRepository.save(ent);
+        return vendingMachineCashMapper.toDto(ent);
     }
 
     /**
@@ -62,9 +102,10 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
     @Override
     public List<VendingMachineCashDTO> save(List<VendingMachineCashDTO> dto) {
         log.debug("Request to save VendingMachineCashDTO : {}", dto);
-        List<VendingMachineCash> ent = vendingMachineCashMapper.toEntity(dto);
-        ent = vendingMachineCashRepository.saveAll(ent);
-        return vendingMachineCashMapper.toDto(ent);
+        List<VendingMachineCashDTO> ret = dto.stream()
+                .map(d -> this.save(d))
+        .collect(Collectors.toList());
+        return ret;
     }
 
     /**
@@ -130,6 +171,48 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
             if(tb.isPresent()) tot = tot.add(tb.get());
             d.setTotal(tot);
             ret = Optional.of(d);
+        }
+        return ret;
+    }
+
+    @Override
+    public List<VendingMachineCashDTO> dischargeChange(Long vendingMachineId, BigDecimal change) {
+        List<VendingMachineCashDTO> ret = new ArrayList<>();
+        List<VendingMachineCash> vmc = vendingMachineCashRepository.findAllByVendingMachineId(vendingMachineId, null).getContent();
+        if(vmc != null) {
+            vmc = vmc.stream()
+                    .filter(v -> v.getCoinType() != null && v.getCoinType().getValue().compareTo(change) <= 0 && v.getCoinQuantity() > 0)
+                    .sorted((v1, v2) -> v2.getCoinType().getValue().compareTo(v1.getCoinType().getValue()))
+                    .collect(Collectors.toList());
+            BigDecimal tot = BigDecimal.ZERO;
+            for(VendingMachineCash c : vmc) {
+                BigDecimal diff = change.subtract(tot);
+                BigDecimal coinsRequired = diff.divideToIntegralValue(c.getCoinType().getValue());
+                if(coinsRequired.compareTo(BigDecimal.ZERO) > 0) {
+                    if (coinsRequired.compareTo(new BigDecimal(c.getCoinQuantity())) > 0) {
+                        coinsRequired = new BigDecimal(c.getCoinQuantity());
+                    }
+                    VendingMachineCashDTO d = new VendingMachineCashDTO();
+                    d.setVendingMachineId(vendingMachineId);
+                    d.setCoinTypeId(c.getCoinType().getId());
+                    d.setCoinTypeValue(c.getCoinType().getValue());
+                    d.setCoinQuantity(coinsRequired.intValue());
+                    ret.add(d);
+                    tot = tot.add(c.getCoinType().getValue().multiply(coinsRequired));
+                    if (tot.compareTo(change) == 0) break;
+                }
+            }
+            if(tot.compareTo(change) != 0) {
+                throw new RuntimeException("Not enough coins to change");
+            } else {
+                //discharge change
+                ret.stream()
+                        .map(d -> {
+                            d.setCoinQuantity(d.getCoinQuantity()*-1);
+                            return this.save(d);
+                        })
+                        .collect(Collectors.toList());
+            }
         }
         return ret;
     }

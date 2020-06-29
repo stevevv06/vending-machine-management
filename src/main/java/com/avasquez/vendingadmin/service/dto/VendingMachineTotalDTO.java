@@ -50,7 +50,7 @@ public class VendingMachineTotalDTO {
         return 31;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "VendingMachineTotalDTO{" +

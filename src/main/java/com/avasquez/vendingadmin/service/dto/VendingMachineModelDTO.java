@@ -82,7 +82,7 @@ public class VendingMachineModelDTO extends AbstractAuditingDTO implements Seria
         return 31;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "VendingMachineModelDTO{" +

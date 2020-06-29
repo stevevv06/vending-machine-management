@@ -2,6 +2,7 @@ package com.avasquez.vendingadmin.rest;
 
 import com.avasquez.vendingadmin.service.api.VendingMachineTransactionService;
 import com.avasquez.vendingadmin.service.dto.VendingMachineTransactionDTO;
+import com.avasquez.vendingadmin.service.dto.VendingMachineTransactionSaleDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -29,14 +30,16 @@ public class VendingMachineTransactionResource {
         this.vendingMachineTransactionService = vendingMachineTransactionService;
     }
 
-    @GetMapping("/vending-machine-transactions")
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/vending-machines/transactions")
     public ResponseEntity<Page<VendingMachineTransactionDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of VendingMachineTransaction");
         Page<VendingMachineTransactionDTO> page = vendingMachineTransactionService.findAll(pageable);
         return new ResponseEntity<Page<VendingMachineTransactionDTO>>(page, null, HttpStatus.OK);
     }
 
-    @GetMapping("/vending-machine-transactions/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/vending-machines/transactions/{id}")
     public ResponseEntity<VendingMachineTransactionDTO> get(@PathVariable Long id) {
         log.debug("REST request to get VendingMachineTransaction : {}", id);
         Optional<VendingMachineTransactionDTO> result = vendingMachineTransactionService.find(id);
@@ -45,19 +48,19 @@ public class VendingMachineTransactionResource {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/vending-machine-transactions")
+    @PostMapping("/vending-machines/transactions")
     public ResponseEntity<VendingMachineTransactionDTO> create(@RequestBody VendingMachineTransactionDTO dto) throws URISyntaxException {
         log.debug("REST request to save VendingMachineTransaction : {}", dto);
         if (dto.getId() != null) {
             return ResponseEntity.badRequest().build();
         }
         VendingMachineTransactionDTO result = vendingMachineTransactionService.save(dto);
-        return ResponseEntity.created(new URI("/api/vending-machine-transactions" + result.getId()))
+        return ResponseEntity.created(new URI("/api/vending-machines/transactions/" + result.getId()))
                 .body(result);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/vending-machine-transactions")
+    @PutMapping("/vending-machines/transactions")
     public ResponseEntity<VendingMachineTransactionDTO> update(@RequestBody VendingMachineTransactionDTO dto) throws URISyntaxException {
         log.debug("REST request to update VendingMachineTransaction : {}", dto);
         if (dto.getId() == null) {
@@ -68,10 +71,23 @@ public class VendingMachineTransactionResource {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/vending-machine-transactions/{id}")
+    @DeleteMapping("/vending-machines/transactions/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.debug("REST request to delete VendingMachineTransaction : {}", id);
         vendingMachineTransactionService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @PostMapping("/vending-machines/transactions/sale")
+    public ResponseEntity<VendingMachineTransactionDTO> create(
+            @RequestBody VendingMachineTransactionSaleDTO dto) throws URISyntaxException {
+        log.debug("REST request to save VendingMachineTransaction Sale: {}", dto);
+        if (dto.getId() != null) {
+            return ResponseEntity.badRequest().build();
+        }
+        VendingMachineTransactionDTO result = vendingMachineTransactionService.save(dto);
+        return ResponseEntity.created(new URI("/api/vending-machines/transactions/" + result.getId()))
+                .body(result);
     }
 }

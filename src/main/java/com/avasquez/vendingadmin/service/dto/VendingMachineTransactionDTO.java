@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A DTO for the {@link com.avasquez.vendingadmin.domain.VendingMachineTransaction} entity.
@@ -41,7 +43,9 @@ public class VendingMachineTransactionDTO extends AbstractAuditingDTO implements
 
     @NotNull
     private Long itemId;
-    
+
+    private List<VendingMachineCashDTO> changeDetail = new ArrayList<>();
+
     public Long getId() {
         return id;
     }
@@ -114,6 +118,14 @@ public class VendingMachineTransactionDTO extends AbstractAuditingDTO implements
         this.itemId = itemId;
     }
 
+    public List<VendingMachineCashDTO> getChangeDetail() {
+        return changeDetail;
+    }
+
+    public void setChangeDetail(List<VendingMachineCashDTO> changeDetail) {
+        this.changeDetail = changeDetail;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -131,7 +143,7 @@ public class VendingMachineTransactionDTO extends AbstractAuditingDTO implements
         return 31;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "VendingMachineTransactionDTO{" +

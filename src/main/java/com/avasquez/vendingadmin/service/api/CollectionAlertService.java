@@ -10,5 +10,5 @@ import java.util.Optional;
  * Service Interface for managing {@link com.avasquez.vendingadmin.domain.CollectionAlert}.
  */
 public interface CollectionAlertService extends CrudService<CollectionAlertDTO, Long>  {
-
+    void checkCashAndTriggerAlert(Long vendingMachineId);
 }

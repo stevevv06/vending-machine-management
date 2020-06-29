@@ -16,7 +16,8 @@ import java.util.List;
  * A CoinType.
  */
 @Entity
-@Table(name = "coin_type")
+@Table(name = "coin_type", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "name", "value" })})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class CoinType extends AbstractAuditingEntity implements Serializable {
 

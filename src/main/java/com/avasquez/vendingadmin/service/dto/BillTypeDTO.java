@@ -63,7 +63,7 @@ public class BillTypeDTO extends AbstractAuditingDTO implements Serializable {
         return 31;
     }
 
-    // prettier-ignore
+
     @Override
     public String toString() {
         return "BillTypeDTO{" +

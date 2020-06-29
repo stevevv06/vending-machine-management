@@ -16,7 +16,8 @@ import java.util.List;
  * A BillType.
  */
 @Entity
-@Table(name = "bill_type")
+@Table(name = "bill_type", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "name", "value" })})
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class BillType extends AbstractAuditingEntity implements Serializable {
 

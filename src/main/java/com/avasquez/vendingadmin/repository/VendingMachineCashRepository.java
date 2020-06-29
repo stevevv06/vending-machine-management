@@ -30,4 +30,7 @@ public interface VendingMachineCashRepository extends JpaRepository<VendingMachi
             "FROM VendingMachineCash c " +
             "WHERE c.vendingMachine.id = :vendingMachineId AND c.billType IS NOT NULL")
     Optional<BigDecimal> getTotalBillByVendingMachineId(@Param("vendingMachineId") Long vendingMachineId);
+
+    Optional<VendingMachineCash> findByVendingMachineIdAndBillTypeId(Long vendingMachineId, Long billTypeID);
+    Optional<VendingMachineCash> findByVendingMachineIdAndCoinTypeId(Long vendingMachineId, Long coinTypeId);
 }
