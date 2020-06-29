@@ -16,6 +16,7 @@ import com.avasquez.vendingadmin.service.mapper.VendingMachineCashMapper;
 import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,27 +39,24 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
     private final Logger log = LoggerFactory.getLogger(VendingMachineCashServiceImpl.class);
     private final VendingMachineCashRepository vendingMachineCashRepository;
     private final VendingMachineCashMapper vendingMachineCashMapper;
-    private final VendingMachineService vendingMachineService;
     private final CoinTypeRepository coinTypeRepository;
     private final BillTypeRepository billTypeRepository;
     private final UnlockAttempService unlockAttempService;
-    private final CollectionAlertService collectionAlertService;
+
+    private VendingMachineService vendingMachineService;
+    private CollectionAlertService collectionAlertService;
 
     public VendingMachineCashServiceImpl(
             VendingMachineCashRepository vendingMachineCashRepository,
             VendingMachineCashMapper vendingMachineCashMapper,
-            VendingMachineService vendingMachineService,
             CoinTypeRepository coinTypeRepository,
             BillTypeRepository billTypeRepository,
-            UnlockAttempService unlockAttempService,
-            CollectionAlertService collectionAlertService) {
+            UnlockAttempService unlockAttempService) {
         this.vendingMachineCashRepository = vendingMachineCashRepository;
         this.vendingMachineCashMapper = vendingMachineCashMapper;
-        this.vendingMachineService = vendingMachineService;
         this.coinTypeRepository =coinTypeRepository;
         this.billTypeRepository = billTypeRepository;
         this.unlockAttempService = unlockAttempService;
-        this.collectionAlertService = collectionAlertService;
     }
 
     /**
@@ -261,5 +259,15 @@ public class VendingMachineCashServiceImpl implements VendingMachineCashService 
                 })
                 .collect(Collectors.toList());
         return cash;
+    }
+
+    @Autowired
+    public void setVendingMachineService(VendingMachineService vendingMachineService) {
+        this.vendingMachineService = vendingMachineService;
+    }
+
+    @Autowired
+    public void setCollectionAlertService(CollectionAlertService collectionAlertService) {
+        this.collectionAlertService = collectionAlertService;
     }
 }

@@ -3,6 +3,7 @@ package com.avasquez.vendingadmin.rest;
 import com.avasquez.vendingadmin.service.api.VendingMachineService;
 import com.avasquez.vendingadmin.service.dto.VendingMachineCashDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineDTO;
+import com.avasquez.vendingadmin.service.dto.VendingMachineReportDTO;
 import com.avasquez.vendingadmin.service.dto.VendingMachineTotalDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,6 +91,13 @@ public class VendingMachineResource {
         log.debug("REST request to delete VendingMachineDTO : {}", id);
         vendingMachineService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/vending-machines/report")
+    public ResponseEntity<Page<VendingMachineReportDTO>> report(Pageable pageable) {
+        log.debug("REST request to get a page of VendingMachineDTO");
+        Page<VendingMachineReportDTO> page = vendingMachineService.getReport(pageable);
+        return new ResponseEntity<Page<VendingMachineReportDTO>>(page, null, HttpStatus.OK);
     }
 
 }

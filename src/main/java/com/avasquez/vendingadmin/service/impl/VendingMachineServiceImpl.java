@@ -9,6 +9,7 @@ import com.avasquez.vendingadmin.service.mapper.VendingMachineItemMapper;
 import com.avasquez.vendingadmin.service.mapper.VendingMachineMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     private final Logger log = LoggerFactory.getLogger(VendingMachineServiceImpl.class);
     private final VendingMachineRepository vendingMachineRepository;
     private final VendingMachineMapper vendingMachineMapper;
+    private VendingMachineCashService vendingMachineCashService;
 
     public VendingMachineServiceImpl(VendingMachineRepository vendingMachineRepository,
                                      VendingMachineMapper vendingMachineMapper) {
@@ -124,5 +126,33 @@ public class VendingMachineServiceImpl implements VendingMachineService {
             }
         }
         return ret;
+    }
+
+    @Override
+    public Page<VendingMachineReportDTO> getReport(Pageable page) {
+        return vendingMachineRepository.findAll(page)
+                .map(e -> {
+                    VendingMachineDTO d = vendingMachineMapper.toDto(e);
+                    VendingMachineReportDTO r = new VendingMachineReportDTO();
+                    r.setId(d.getId());
+                    r.setName(d.getName());
+                    r.setStatusOnline(d.isStatusOnline());
+                    r.setVendingMachineModelId(d.getVendingMachineModelId());
+                    r.setVendingMachineModelName(d.getVendingMachineModelName());
+                    r.setCollectionAlert(e.getCollectionAlerts() != null && e.getCollectionAlerts().size()>1);
+                    Optional<VendingMachineTotalDTO> tot = vendingMachineCashService.getTotalCashByVendingMachineId(e.getId());
+                    if(tot.isPresent()) {
+                        r.setTotalCash(tot.get().getTotal());
+                    } else {
+                        r.setTotalCash(BigDecimal.ZERO);
+                    }
+
+                    return r;
+                });
+    }
+
+    @Autowired
+    public void setVendingMachineCashService(VendingMachineCashService vendingMachineCashService) {
+        this.vendingMachineCashService = vendingMachineCashService;
     }
 }

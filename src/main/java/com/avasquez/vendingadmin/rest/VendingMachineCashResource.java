@@ -32,6 +32,7 @@ public class VendingMachineCashResource {
         this.vendingMachineCashService = vendingMachineCashService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/vending-machines/cash")
     public ResponseEntity<Page<VendingMachineCashDTO>> getAll(Pageable pageable) {
         log.debug("REST request to get a page of VendingMachineCash");
@@ -39,6 +40,7 @@ public class VendingMachineCashResource {
         return new ResponseEntity<Page<VendingMachineCashDTO>>(page, null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/vending-machines/cash/{id}")
     public ResponseEntity<VendingMachineCashDTO> get(@PathVariable Long id) {
         log.debug("REST request to get VendingMachineCash : {}", id);
@@ -78,6 +80,7 @@ public class VendingMachineCashResource {
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/vending-machines/{id}/cash")
     public ResponseEntity<Page<VendingMachineCashDTO>> getByVendingMachine(@PathVariable Long id, Pageable pageable) {
         log.debug("REST request to get VendingMachineItemDTO items: {}", id);
@@ -85,6 +88,7 @@ public class VendingMachineCashResource {
         return new ResponseEntity<Page<VendingMachineCashDTO>>(result, null, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/vending-machines/{id}/cash")
     public ResponseEntity<List<VendingMachineCashDTO>> createCash(
             @PathVariable Long id, @RequestBody List<VendingMachineCashDTO> dtos) throws URISyntaxException {
@@ -97,6 +101,7 @@ public class VendingMachineCashResource {
                 .body(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/vending-machines/{id}/cash/total")
     public ResponseEntity<VendingMachineTotalDTO> getTotalCash(@PathVariable Long id) {
         log.debug("REST request to get VendingMachineTotalDTO total cash: {}", id);
@@ -105,6 +110,7 @@ public class VendingMachineCashResource {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @PostMapping("/vending-machines/{id}/cash/open")
     public ResponseEntity<List<VendingMachineCashDTO>> open(@PathVariable Long id, @RequestBody String unlockCode) {
         log.debug("REST request to get VendingMachine Open : {}", id);
