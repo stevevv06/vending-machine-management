@@ -1258,7 +1258,7 @@
 			"name": "RunTest Script",
 			"item": [
 				{
-					"name": "signup admin Copy",
+					"name": "Signup admin",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -1284,7 +1284,7 @@
 					"response": []
 				},
 				{
-					"name": "signin admin Copy",
+					"name": "Signin admin",
 					"event": [
 						{
 							"listen": "test",
@@ -1323,7 +1323,7 @@
 					"response": []
 				},
 				{
-					"name": "Post Batch Copy",
+					"name": "Post Vending Machine Batch",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1404,7 +1404,7 @@
 					"response": []
 				},
 				{
-					"name": "Post Batch Items",
+					"name": "Post Items Batch",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1644,7 +1644,7 @@
 					"response": []
 				},
 				{
-					"name": "Post Vending Machine Transaction Sale Copy",
+					"name": "Post Vending Machine Transaction Sale Not Allowed",
 					"event": [
 						{
 							"listen": "test",
@@ -1668,7 +1668,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemCode\": \"103\",\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 1\n        }\n    ]\n\n}\n",
+							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemCode\": \"103\",\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CREDIT_CARD\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 1\n        }\n    ]\n\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1732,7 +1732,7 @@
 					"response": []
 				},
 				{
-					"name": "Get cash total Copy",
+					"name": "Get Vending Machine Cash total",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -1791,7 +1791,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Count Transactions",
+					"name": "Get Vending Machine Count Transactions",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -1817,7 +1817,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Transactions Profit",
+					"name": "Get Vending Machine Transactions Profit",
 					"request": {
 						"method": "GET",
 						"header": [

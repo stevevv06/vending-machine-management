@@ -27,3 +27,6 @@ A postman collection it's also provided for testing:
 
     VendingMachine.postman_collection.json
     
+Using postman Runner feature the folder RunTest Script can be executed which will initialize data and 
+insert transactions and run reports
+    
