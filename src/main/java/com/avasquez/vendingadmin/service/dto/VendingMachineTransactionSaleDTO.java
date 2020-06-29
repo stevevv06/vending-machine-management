@@ -26,6 +26,8 @@ public class VendingMachineTransactionSaleDTO {
     @NotNull
     private Long itemId;
 
+    private String itemCode;
+
     private List<VendingMachineCashDTO> vendingMachineCashs;
 
     public Long getId() {
@@ -74,6 +76,14 @@ public class VendingMachineTransactionSaleDTO {
 
     public void setVendingMachineCashs(List<VendingMachineCashDTO> vendingMachineCashs) {
         this.vendingMachineCashs = vendingMachineCashs;
+    }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
     @Override

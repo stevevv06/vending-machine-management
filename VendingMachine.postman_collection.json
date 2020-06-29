@@ -1416,7 +1416,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n    {\n        \"name\": \"Item1\",\n        \"code\": \"Item1\",\n        \"price\": 0.25\n    },\n    {\n        \"name\": \"Item2\",\n        \"code\": \"Item2\",\n        \"price\": 0.50\n    },\n    {\n        \"name\": \"Item3\",\n        \"code\": \"Item3\",\n        \"price\": 0.65\n    },\n    {\n        \"name\": \"Item4\",\n        \"code\": \"Item4\",\n        \"price\": 1\n    },\n    {\n        \"name\": \"Item5\",\n        \"code\": \"Item5\",\n        \"price\": 1.15\n    }\n\n]",
+							"raw": "[\n    {\n        \"name\": \"Item1\",\n        \"code\": \"101\",\n        \"price\": 0.25\n    },\n    {\n        \"name\": \"Item2\",\n        \"code\": \"102\",\n        \"price\": 0.50\n    },\n    {\n        \"name\": \"Item3\",\n        \"code\": \"103\",\n        \"price\": 0.65\n    },\n    {\n        \"name\": \"Item4\",\n        \"code\": \"104    \",\n        \"price\": 1\n    },\n    {\n        \"name\": \"Item5\",\n        \"code\": \"Item5\",\n        \"price\": 1.15\n    }\n\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1624,7 +1624,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemId\": 3,\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 1\n        }\n    ]\n\n}\n",
+							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemCode\": \"103\",\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 1\n        }\n    ]\n\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1668,7 +1668,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemId\": 3,\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 1\n        }\n    ]\n\n}\n",
+							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemCode\": \"103\",\n    \"itemQuantity\": 1,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 1\n        }\n    ]\n\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1712,7 +1712,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemId\": 4,\n    \"itemQuantity\": 100,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 50\n        }\n    ]\n}\n",
+							"raw": "{\n    \"vendingMachineId\": 1,\n    \"itemCode\": \"104\",\n    \"itemQuantity\": 100,\n    \"paymentType\": \"CASH\",\n    \"vendingMachineCashs\": [\n        {\n            \"billTypeValue\": 2,\n            \"billQuantity\": 50\n        }\n    ]\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"

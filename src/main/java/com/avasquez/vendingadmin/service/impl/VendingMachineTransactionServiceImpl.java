@@ -148,7 +148,17 @@ public class VendingMachineTransactionServiceImpl implements VendingMachineTrans
         d.setItemQuantity(dto.getItemQuantity());
         d.setPaymentType(dto.getPaymentType());
         d.setVendingMachineId((dto.getVendingMachineId()));
-        d.setItemId(dto.getItemId());
+        if(dto.getItemId() != null) {
+            d.setItemId(dto.getItemId());
+        } else if(dto.getItemCode() != null && dto.getItemId() == null) {
+            Optional<Item> opti = itemRepository.findByCode(dto.getItemCode());
+            if(opti.isPresent()) {
+                d.setItemId(opti.get().getId());
+            } else {
+                throw new RuntimeException("Item Code not found: " + dto.getItemCode());
+            }
+        }
+
         d.setTransactionDate(LocalDate.now());
         if(dto.getPaymentType() == PaymentType.CREDIT_CARD) {
             d.setCashInAmount(BigDecimal.ZERO);
